@@ -1,6 +1,11 @@
 # See the OWNERS docs at https://go.k8s.io/owners
 
 approvers:
-  - sp-peribolos-maintainers
+  - tumido
+  - harshad16
 reviewers:
-  - sp-peribolos-maintainers
+  - tumido
+  - Shreyanand
+  - harshad16
+  - KPostOffice
+  - mimotej
