@@ -1,0 +1,139 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: dump-config
+spec:
+  params:
+  - name: REPO_NAME
+    type: string
+    default: .github
+  - name: INSTALLATION_ID
+    type: string
+  - name: GIT_EMAIL
+    type: string
+  - name: GIT_NAME
+    type: string
+  steps:
+    - name: dump-and-push-config
+      image: quay.io/operate-first/opf-toolbox
+      volumeMounts:
+        - mountPath: /var/lib/shared
+          name: shared-data
+      env:
+        - name: GITHUB_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: peribolos-$(params.INSTALLATION_ID)
+              key: token
+        - name: ORG_NAME
+          valueFrom:
+            secretKeyRef:
+              name: peribolos-$(params.INSTALLATION_ID)
+              key: orgName
+      script: |
+        #!/bin/bash
+        REPO_REMOTE="https://$GITHUB_TOKEN@github.com/$ORG_NAME/$(params.REPO_NAME)"
+
+        DEFAULT_BRANCH=$( curl \
+          -H "Accept: application/vnd.github.v3+json" \
+          -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+          https://api.github.com/repos/$ORG_NAME/$(params.REPO_NAME) 2>/dev/null \
+          | yq e '.default_branch' - | sed 's/\"//g' )
+        echo -n $DEFAULT_BRANCH > /var/lib/shared/default_branch
+
+        BRANCH_NAME="$(context.taskRun.name)"
+
+        git config --global user.email "$(params.GIT_EMAIL)"
+        git config --global user.name "$(params.GIT_NAME)"
+
+        mkdir repo
+        cd repo
+
+        # Check if repo has no commits
+        if [ $( git ls-remote --heads $REPO_REMOTE | wc -l ) -eq "0" ]; then
+          echo "Repository empty, creating empty commit"
+          git init -b $DEFAULT_BRANCH
+          git remote add origin $REPO_REMOTE
+          git commit --allow-empty -m "Initial commit"
+          git push --all origin
+        else
+          git clone $REPO_REMOTE .
+        fi
+        git checkout -b $BRANCH_NAME
+
+        echo -n $GITHUB_TOKEN > token
+        echo "Dumping org config ..."
+        peribolos --dump $ORG_NAME --github-token-path token > github-config.yaml
+
+        echo "Commiting config to $BRANCH_NAME branch ..."
+        git add github-config.yaml
+        git commit -m "Add initial yaml config"
+        git push origin $BRANCH_NAME
+    - name: open-pr
+      image: registry.access.redhat.com/ubi8/python-38:1-34.1599745032
+      volumeMounts:
+        - mountPath: /var/lib/shared
+          name: shared-data
+      env:
+      - name: GITHUB_TOKEN
+        valueFrom:
+          secretKeyRef:
+            name: peribolos-$(params.INSTALLATION_ID)
+            key: token
+      - name: ORG_NAME
+        valueFrom:
+          secretKeyRef:
+            name: peribolos-$(params.INSTALLATION_ID)
+            key: orgName
+      script: |
+        #!/usr/libexec/platform-python
+
+        """Generated from: https://hub.tekton.dev/tekton/task/github-open-pr"""
+
+        import json
+        import os
+        import sys
+        import http.client
+
+        github_token = os.environ['GITHUB_TOKEN']
+        org_name = os.environ['ORG_NAME']
+        default_branch = open("/var/lib/shared/default_branch", "r").read()
+        repo_full_path = f"{org_name}/$(params.REPO_NAME)"
+
+        open_pr_url = f"/repos/{repo_full_path}/pulls"
+
+        data = {
+            "head": "$(context.taskRun.name)",
+            "base": default_branch,
+            "title": "Add initial peribolos configuration",
+            "body": """This PR will add the initial peribolos configuration file"""
+        }
+        print("Sending this data to GitHub: ")
+        print(data)
+
+        authHeader = "Bearer " + github_token
+
+        conn = http.client.HTTPSConnection("api.github.com")
+        conn.request(
+            "POST",
+            open_pr_url,
+            body=json.dumps(data),
+            headers={
+                "User-Agent": "Peribolos",
+                "Authorization": authHeader,
+                "Accept": "application/vnd.github.v3+json ",
+            })
+        resp = conn.getresponse()
+        if not str(resp.status).startswith("2"):
+            print("Error: %d" % (resp.status))
+            print(resp.read())
+            sys.exit(1)
+        else:
+            # https://docs.github.com/en/rest/reference/pulls#create-a-pull-request
+            body = json.loads(resp.read().decode())
+
+            print(f"GitHub pull request created for {repo_full_path}: "
+                  f'number={body["number"]} url={body["html_url"]}')
+  volumes:
+    - emptyDir: {}
+      name: shared-data
