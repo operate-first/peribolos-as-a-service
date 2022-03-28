@@ -1,0 +1,15 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: peribolos-as-services
+spec:
+  ports:
+    - name: webhook
+      protocol: TCP
+      port: 80
+      targetPort: 3000
+  selector:
+    app.kubernetes.io/component: peribolos
+    app.kubernetes.io/managed-by: sig-services
+    service: peribolos-as-services

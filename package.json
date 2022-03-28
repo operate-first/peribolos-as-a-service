@@ -8,6 +8,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@kubernetes/client-node": "^0.16.3",
     "probot": "^11.0.1"
   },
   "devDependencies": {
