@@ -1,8 +1,9 @@
 FROM node:12-slim
 WORKDIR /usr/src/app
-COPY package.json package-lock.json ./
+COPY . .
+RUN npm install -g typescript
 RUN npm ci --production
 RUN npm cache clean --force
 ENV NODE_ENV="production"
-COPY . .
+RUN npm run build
 CMD [ "npm", "start" ]
