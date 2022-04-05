@@ -1,0 +1,39 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: peribolos-run
+spec:
+  params:
+  - name: REPO_NAME
+    type: string
+    default: '.github'
+  - name: INSTALLATION_ID
+    type: string
+  steps:
+    - name: apply-peribolos
+      image: quay.io/operate-first/opf-toolbox
+      env:
+        - name: GITHUB_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: peribolos-$(params.INSTALLATION_ID)
+              key: token
+        - name: ORG_NAME
+          valueFrom:
+            secretKeyRef:
+              name: peribolos-$(params.INSTALLATION_ID)
+              key: orgName
+      script: |
+        #!/usr/bin/bash
+
+        echo "Cloning repository..."
+        # Clone repository
+        git clone https://github.com/$ORG_NAME/$(params.REPO_NAME)
+        cd $(params.REPO_NAME)
+
+        # Save token to file
+        echo $GITHUB_TOKEN > token
+
+        # Run Peribolos on the repository
+        echo "Running peribolos..."
+        peribolos --config-path github-config.yaml --github-token-path token --fix-org --fix-repos --fix-team-members --fix-teams --fix-team-repos --confirm
