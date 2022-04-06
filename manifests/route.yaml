@@ -1,0 +1,9 @@
+---
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: peribolos-as-services
+spec:
+  to:
+    kind: Service
+    name: peribolos-as-services
