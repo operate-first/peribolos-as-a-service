@@ -1,0 +1,21 @@
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: peribolos-role
+  namespace: peribolos
+rules:
+- apiGroups: 
+  - "tekton.dev"
+  resources: 
+  - "taskRuns"
+  verbs: 
+  - "create"
+- apiGroups: 
+  - ''
+  resources: 
+  - "secrets"
+  verbs: 
+  - "get"
+  - "list"
+  - "create"
+  - "update"
