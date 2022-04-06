@@ -4,17 +4,17 @@ metadata:
   name: peribolos-role
   namespace: peribolos
 rules:
-- apiGroups: 
+- apiGroups:
   - "tekton.dev"
-  resources: 
+  resources:
   - "taskRuns"
-  verbs: 
+  verbs:
   - "create"
-- apiGroups: 
+- apiGroups:
   - ''
-  resources: 
+  resources:
   - "secrets"
-  verbs: 
+  verbs:
   - "get"
   - "list"
   - "create"
