@@ -5,6 +5,8 @@ resources:
   - route.yaml
   - service.yaml
   - service-account.yaml
+  - role.yaml
+  - role-binding.yaml
 commonLabels:
   app.kubernetes.io/name: peribolos-as-services
   app.kubernetes.io/component: peribolos

@@ -2,11 +2,9 @@ kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: peribolos-role-binding
-  namespace: peribolos
 subjects:
 - kind: ServiceAccount
   name: peribolos-as-service
-  namespace: peribolos
 roleRef:
   kind: Role
   name: peribolos-role
