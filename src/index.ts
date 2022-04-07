@@ -1,7 +1,8 @@
 import { Probot } from "probot";
 import fs from 'fs';
-import k8s, { V1Secret } from '@kubernetes/client-node';
+import  { V1Secret } from '@kubernetes/client-node';
 const { createAppAuth } = require("@octokit/auth-app");
+const k8s = require('@kubernetes/client-node');
 require('dotenv').config();
 
 
@@ -121,6 +122,36 @@ export = (app: Probot) => {
         }
     };
     await k8sApi.createNamespacedSecret(k8snamespace,secret);
+
+    // Create task run
+    var payload = {
+      apiVersion: "tekton.dev/v1beta1",
+      kind: "TaskRun",
+      metadata: {
+          generateName: "peribolos-dump-config-"
+      },
+      spec: {
+          taskRef: {
+              name: "peribolos-dump-config"
+          },
+          params: [
+              { name: "INSTALLATION_ID", value: context.payload.installation.id.toString() }
+          ]
+      }
+    }
+
+    // No need to check for token expiration since it was just created
+    try {
+      await k8sCustomResourceApi.createNamespacedCustomObject(
+        "tekton.dev",
+        "v1beta1",
+        k8snamespace,
+        "taskruns",
+        payload
+      );
+    } catch(e: any) {
+      app.log.error(e, 'Failed to schedule peribolos dump task run');
+    }
   });
 
   //handle push event
