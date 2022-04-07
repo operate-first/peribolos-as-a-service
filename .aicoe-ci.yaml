@@ -1,1 +1,8 @@
 check: []
+build:
+  build-strategy: Dockerfile
+  dockerfile-path: Dockerfile
+  registry: quay.io
+  registry-org: open-services-group
+  registry-project: peribolos-as-service
+  registry-secret: osg-pusher-secret
