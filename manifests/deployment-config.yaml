@@ -20,7 +20,7 @@ spec:
       serviceAccountName: peribolos-as-services
       containers:
         - name: peribolos-as-services
-          image: quay.io/harshad16/peribolos-as-service:latest
+          image: peribolos-service-controller:latest
           imagePullPolicy: Always
           env:
             - name: WEBHOOK_SECRET

@@ -4,5 +4,10 @@ build:
   dockerfile-path: Dockerfile
   registry: quay.io
   registry-org: open-services-group
-  registry-project: peribolos-as-service
+  registry-project: peribolos-as-a-service
   registry-secret: osg-pusher-secret
+deploy:
+  project-org: open-services-group
+  project-name: peribolos-as-a-service
+  image-name: peribolos-service-controller
+  overlay-contextpath: "manifests/imagestream.yaml"
