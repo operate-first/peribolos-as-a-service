@@ -2,24 +2,25 @@
 kind: DeploymentConfig
 apiVersion: apps.openshift.io/v1
 metadata:
-  name: peribolos-as-services
+  name: peribolos-as-service
 spec:
+  serviceAccountName: peribolos-as-service
   test: false
   replicas: 1
   selector:
     app.kubernetes.io/component: peribolos
     app.kubernetes.io/managed-by: sig-services
-    service: peribolos-as-services
+    service: peribolos-as-service
   template:
     metadata:
       labels:
         app.kubernetes.io/component: peribolos
         app.kubernetes.io/managed-by: sig-services
-        service: peribolos-as-services
+        service: peribolos-as-service
     spec:
-      serviceAccountName: peribolos-as-services
+      serviceAccountName: peribolos-as-service
       containers:
-        - name: peribolos-as-services
+        - name: peribolos-as-service
           image: peribolos-service-controller:latest
           imagePullPolicy: Always
           env:
@@ -27,17 +28,21 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key: webhook_secret
-                  name: peribolos-as-services
+                  name: peribolos-as-service
             - name: APP_ID
               valueFrom:
                 secretKeyRef:
                   key: app_id
-                  name: peribolos-as-services
+                  name: peribolos-as-service
             - name: PRIVATE_KEY
               valueFrom:
                 secretKeyRef:
                   key: private_key
-                  name: peribolos-as-services
+                  name: peribolos-as-service
+            - name: NODE_ENV
+              value: "production"
+            - name: LOG_LEVEL
+              value: "debug"
           ports:
             - containerPort: 3000
               protocol: TCP
