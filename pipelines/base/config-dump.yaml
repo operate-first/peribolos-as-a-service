@@ -63,10 +63,10 @@ spec:
 
         echo -n $GITHUB_TOKEN > token
         echo "Dumping org config ..."
-        peribolos --dump $ORG_NAME --github-token-path token > github-config.yaml
+        peribolos --dump $ORG_NAME --github-token-path token > peribolos.yaml
 
         echo "Commiting config to $BRANCH_NAME branch ..."
-        git add github-config.yaml
+        git add peribolos.yaml
         git commit -m "Add initial yaml config"
         git push origin $BRANCH_NAME
     - name: open-pr
