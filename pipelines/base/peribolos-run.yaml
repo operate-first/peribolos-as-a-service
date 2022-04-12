@@ -36,4 +36,4 @@ spec:
 
         # Run Peribolos on the repository
         echo "Running peribolos..."
-        peribolos --config-path github-config.yaml --github-token-path token --fix-org --fix-repos --fix-team-members --fix-teams --fix-team-repos --confirm
+        peribolos --config-path peribolos.yaml --github-token-path token --fix-org --fix-repos --fix-team-members --fix-teams --fix-team-repos --confirm
