@@ -11,6 +11,7 @@ const EXPIRATION_THRESHOLD = 5 * 60000;
 const kc = new k8s.KubeConfig();
 kc.loadFromDefault();
 const k8sApi = kc.makeApiClient(k8s.CoreV1Api);
+const k8sCustomResourceApi = kc.makeApiClient(k8s.CustomObjectsApi);
 const k8sContext = kc.getCurrentContext();
 const k8snamespace = (() => {
   if (k8sContext === 'inClusterContext') {
@@ -120,6 +121,44 @@ export = (app: Probot) => {
         }
     };
     await k8sApi.createNamespacedSecret(k8snamespace,secret);
+  });
+
+  //handle push event
+  app.on("push", async (context) => {
+
+    const configExists = Boolean(context.payload.commits?.reduce((acc, commit) => [...acc, ...commit.added, ...commit.modified,...commit.removed], []).find((name: String) => name == "peribolos.yaml"));
+    if(!configExists) {
+      app.log.info('No changes in peribolos.yaml, skipping peribolos run');
+      return;
+    }
+    const payload = {
+      apiVersion: "tekton.dev/v1beta1",
+      kind: "TaskRun",
+      metadata: {
+        generateName: "peribolos-push-task-"
+      },
+      spec: {
+        taskRef:{
+          name: "peribolos-run"
+        },
+        params: [
+          { name: "REPO_NAME", value: ".github"},
+          { name: "INSTALLATION_ID", value: context.payload.installation?.id.toString()}
+        ],
+
+      }
+    };
+    try {
+      await k8sCustomResourceApi.createNamespacedCustomObject(
+        "tekton.dev",
+        "v1beta1",
+        namespace,
+        "taskruns",
+        payload
+      );
+    }catch(e: any){
+      app.log.error(e, 'Failed to schedule peribolos run');
+    }
   });
   // For more information on building apps:
   // https://probot.github.io/docs/
