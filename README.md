@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/open-services-group/peribolos-as-a-service/blob/main/LICENSE)
 ![GitHub Tag](https://img.shields.io/github/v/tag/open-services-group/peribolos-as-a-service?style=plastic)
-[![Docker Repository on Quay](https://quay.io/repository/open-services-group/peribolos-as-service/status "Docker Repository on Quay")](https://quay.io/repository/open-services-group/peribolos-as-service)
+[![Docker Repository on Quay](https://quay.io/repository/open-services-group/peribolos-as-a-service/status "Docker Repository on Quay")](https://quay.io/repository/open-services-group/peribolos-as-a-service)
 
 Learning exercise for OSG in how to make a managed service.
 
