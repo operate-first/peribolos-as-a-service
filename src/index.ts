@@ -76,7 +76,7 @@ export = (app: Probot) => {
   // Respond to the GitHub app installation deleted
   app.on("installation.deleted", async (context) =>{
 
-    var name = "peribolos-"+context.payload.installation.id;
+    const name = "peribolos-"+context.payload.installation.id;
 
     await k8sApi.deleteNamespacedSecret(name, k8snamespace);
   });
