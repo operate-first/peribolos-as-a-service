@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ImageStream
+metadata:
+  name: peribolos-service-controller
+spec:
+  tags:
+  - from:
+      kind: DockerImage
+      name: quay.io/open-services-group/peribolos-as-a-service:0.0.0
+    importPolicy: {}
+    name: latest
+    referencePolicy:
+      type: Source
