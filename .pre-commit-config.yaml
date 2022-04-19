@@ -17,3 +17,14 @@ repos:
       - id: detect-private-key
       - id: check-yaml
         args: [--allow-multiple-documents]
+
+  - repo: https://github.com/pre-commit/mirrors-eslint
+    rev: v8.13.0
+    hooks:
+      - id: eslint
+        additional_dependencies:
+          - "eslint@8.13.0"
+          - "@typescript-eslint/eslint-plugin@5.19.0"
+          - "@typescript-eslint/parser@5.19.0"
+          - "eslint-config-prettier@8.5.0"
+          - "typescript@4.6.3"
