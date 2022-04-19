@@ -152,7 +152,7 @@ export = (app: Probot) => {
       await k8sCustomResourceApi.createNamespacedCustomObject(
         "tekton.dev",
         "v1beta1",
-        namespace,
+        k8snamespace,
         "taskruns",
         payload
       );
