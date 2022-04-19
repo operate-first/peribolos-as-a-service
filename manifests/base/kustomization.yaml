@@ -1,3 +1,4 @@
+---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
@@ -8,7 +9,10 @@ resources:
   - service-account.yaml
   - role.yaml
   - role-binding.yaml
+  - config-dump.yaml
+  - peribolos-run.yaml
+  - secret.yaml
 commonLabels:
-  app.kubernetes.io/name: peribolos-as-services
+  app.kubernetes.io/name: peribolos-as-service
   app.kubernetes.io/component: peribolos
   app.kubernetes.io/managed-by: sig-services
