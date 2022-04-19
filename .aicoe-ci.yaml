@@ -1,7 +1,7 @@
 check: []
 build:
-  build-strategy: Dockerfile
-  dockerfile-path: Dockerfile
+  build-strategy: Source
+  base-image: registry.access.redhat.com/ubi8/nodejs-16:latest
   registry: quay.io
   registry-org: open-services-group
   registry-project: peribolos-as-a-service
