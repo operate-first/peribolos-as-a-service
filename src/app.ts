@@ -96,6 +96,11 @@ export default (appBase: Probot) => {
       app.log.info('No changes in peribolos.yaml, skipping peribolos run');
       return;
     }
+
+    if (context.payload.installation?.id) {
+      await app.updateToken(context.payload.installation.id)
+    }
+
     const payload = {
       apiVersion: 'tekton.dev/v1beta1',
       kind: 'TaskRun',
