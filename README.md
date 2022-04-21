@@ -22,8 +22,8 @@ npm start
 ## Run inside container
 
 ```sh
-# 1. Build container
-podman build -t peribolos-as-a-service .
+# 1. Run supplied script which will create image
+./scripts/build-image.sh
 
 # 2. Start container
 podman run -e APP_ID=<app-id> -e PRIVATE_KEY=<pem-value> peribolos-as-a-service
@@ -82,7 +82,7 @@ Reference: [docs](https://probot.github.io/docs/configuration/)
     1. Create a custom image by yourself and push it to the registry.
 
         ```sh
-            podman build -t peribolos-as-a-service .
+            ./scripts/build-image.sh
             podman login quay.io
             podman push localhost/peribolos-as-a-service <quay repo>
         ```
