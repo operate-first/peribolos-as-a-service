@@ -53,26 +53,35 @@ Reference: [docs](https://probot.github.io/docs/configuration/)
 
 ### Methods of developments
 
-1. In Local system
+1. In local system
+   1. It's crucial your node version matches the one installed in the container deployment.
+      Using different version can make any packages installed in your development unusable when built into a container image.
+      Please install [NVM](https://github.com/nvm-sh/nvm) and set it up for NodeJS v16:
 
-    Start the server for services.
+      ```sh
+      # Install currently locked version from .nvmrc
+      nvm install
+      # Use this version
+      nvm use
+      ```
 
-    ```sh
-        # Install dependencies
-        npm install
+      Note: `nvm use` can be called automatically by your shell on entering the directory, see docs on [NVM](https://github.com/nvm-sh/nvm#deeper-shell-integration) or use a plugin like [oh-my-zsh nvm](https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/nvm)
 
-        # Build all the requirements
-        npm run build
+   2. Remember to set environment variables via `.env` file. We require:
+      - `WEBHOOK_PROXY_URL` (use https://smee.io/ to obtain it, and set it in your GitHub Application config)
+      - `APP_ID` matching your GitHub Application config
+      - Optionally you should also set `PRIVATE_KEY` if your app's private key is located outside of the repository directory, see [Probot documentation](https://probot.github.io/docs/development/#manually-configuring-a-github-app) for more details
 
-        # Run the bot
-        npm start
-    ```
+   3. Run the app
 
-    Linking the local server to get the webhook payload,
-    we can use a redirect hook which would relay the webhook from Github to our local server.
-    Use: https://smee.io/
+      ```sh
+      # Install dependencies
+      npm install --include=dev
 
-    Set `WEBHOOK_PROXY_URL` env var in local with smee URL and Use the smee URL in the webhook setup.
+      # Run local instance with hot reloading
+      npm run dev
+      ```
+
 2. On OCP cluster:
     One can use the deployment manifest, provided [here](./manifests/)
     To deploy the app in an openshift/k8s cluster.
