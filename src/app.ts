@@ -98,7 +98,7 @@ export default (appBase: Probot) => {
     }
 
     if (context.payload.installation?.id) {
-      await app.updateToken(context.payload.installation.id)
+      await app.updateToken(context.payload.installation.id);
     }
 
     const payload = {
