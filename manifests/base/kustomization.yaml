@@ -4,14 +4,14 @@ kind: Kustomization
 resources:
   - deployment-config.yaml
   - imagestream.yaml
-  - route.yaml
-  - service.yaml
-  - service-account.yaml
-  - role.yaml
-  - role-binding.yaml
-  - config-dump.yaml
+  - peribolos-dump-config.yaml
   - peribolos-run.yaml
+  - role-binding.yaml
+  - role.yaml
+  - route.yaml
   - secret.yaml
+  - service-account.yaml
+  - service.yaml
 commonLabels:
   app.kubernetes.io/name: peribolos-as-service
   app.kubernetes.io/component: peribolos
