@@ -10,4 +10,4 @@ deploy:
   project-org: open-services-group
   project-name: peribolos-as-a-service
   image-name: peribolos-service-controller
-  overlay-contextpath: "manifests/imagestream.yaml"
+  overlay-contextpath: "manifests/overlays/prod/imagestream.yaml"

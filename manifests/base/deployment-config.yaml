@@ -8,12 +8,16 @@ spec:
   test: false
   replicas: 1
   selector:
+    app.kubernetes.io/name: peribolos-as-service
     app.kubernetes.io/component: peribolos
     app.kubernetes.io/managed-by: sig-services
     service: peribolos-as-service
   template:
     metadata:
+      annotations:
+        alpha.image.policy.openshift.io/resolve-names: '*'
       labels:
+        app.kubernetes.io/name: peribolos-as-service
         app.kubernetes.io/component: peribolos
         app.kubernetes.io/managed-by: sig-services
         service: peribolos-as-service
