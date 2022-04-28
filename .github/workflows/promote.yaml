@@ -1,0 +1,63 @@
+name: Promote
+
+on:
+  issues:
+    types:
+      - opened
+
+jobs:
+  promote:
+    name: Promote
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Check actor's permissions
+        uses: ./.github/actions/check-maintainer-role
+        id: check-promote
+        with:
+          success: Promotion issue noticed. Promotion triggered
+          failure: You can't trigger a environment promotion
+          label: kind/promote
+
+      - name: Get images used in stage
+        uses: mikefarah/yq@master
+        id: stage
+        with:
+          cmd: yq e ".images" manifests/overlays/stage/kustomization.yaml
+
+      - name: Use stage images in prod
+        uses: mikefarah/yq@master
+        with:
+          cmd: yq e -i '.images=(strenv(IMAGES) | from_yaml)' manifests/overlays/prod/kustomization.yaml
+        env:
+          IMAGES: ${{ steps.stage.outputs.result }}
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        id: pr
+        with:
+          commit-message: "chore(manifests): Promote staging to prod"
+          title: "chore(manifests): Promote staging to prod"
+          branch: "promote/${{ github.event.issue.number }}"
+          delete-branch: true
+          author: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
+          body: |
+            Closes: ${{ github.event.issue.html_url }}
+
+            :up: Bumps `prod` overlay to use new images (copied from `stage`):
+
+            ```yaml
+            ${{ steps.stage.outputs.result }}
+            ```
+
+      - name: Create success comment
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          comment-id: ${{ steps.check-promote.outputs.comment-id }}
+          body: |
+            🙏 Promote pull request created at ${{ steps.pr.outputs.pull-request-url }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

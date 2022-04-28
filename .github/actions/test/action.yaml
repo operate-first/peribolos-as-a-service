@@ -1,0 +1,31 @@
+name: Test
+description: Test Node.js package
+runs:
+  using: "composite"
+  steps:
+    - name: Read Node.js version
+      id: node_version
+      uses: juliangruber/read-file-action@v1
+      with:
+        path: ./.nvmrc
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: "${{ steps.node_version.outputs.content }}"
+
+    - name: Cache Node.js modules
+      uses: actions/cache@v3
+      with:
+        path: ~/.npm
+        key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.OS }}-node-
+
+    - name: Install dependencies
+      shell: bash
+      run: npm ci
+
+    - name: Run tests
+      shell: bash
+      run: npm test

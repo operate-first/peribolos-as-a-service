@@ -1,0 +1,281 @@
+name: Release
+
+on:
+  issues:
+    types:
+      - opened
+
+jobs:
+  check-release:
+    name: Check if actor is eligible
+    runs-on: ubuntu-latest
+    outputs:
+      comment-id: ${{ steps.check-maintainer-role.outputs.comment-id }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Check actor's permissions
+        id: check-maintainer-role
+        uses: ./.github/actions/check-maintainer-role
+        with:
+          success: Release issue noticed. Build triggered
+          failure: You can't trigger a release
+          label: kind/release
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  test:
+    name: Test
+    needs: check-release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Test
+        id: test
+        uses: ./.github/actions/test
+
+      - name: Update comment
+        uses: peter-evans/create-or-update-comment@v1
+        if: ${{ always() }}
+        id: comment
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          comment-id: ${{ needs.check-release.outputs.comment-id }}
+          body: ${{ steps.test.outcome == 'success' && '🔍 Tests passed' || '👎 Tests failed' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  check-build-controller:
+    name: Build
+    needs: check-release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Build
+        id: build
+        uses: ./.github/actions/build-controller
+
+      - name: Update comment
+        uses: peter-evans/create-or-update-comment@v1
+        if: ${{ always() }}
+        id: comment
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          comment-id: ${{ needs.check-release.outputs.comment-id }}
+          body: ${{ steps.build.outcome == 'success' && '🏗️ Controller container is buildable' || '💣 Failed to build Controller container' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  check-build-peribolos:
+    name: Build Peribolos
+    needs: check-release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Build
+        id: build
+        uses: ./.github/actions/build-peribolos
+
+      - name: Update comment
+        uses: peter-evans/create-or-update-comment@v1
+        if: ${{ always() }}
+        id: comment
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          comment-id: ${{ needs.check-release.outputs.comment-id }}
+          body: ${{ steps.build.outcome == 'success' && '🏗️ Peribolos container is buildable' || '💣 Failed to build Peribolos container' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  release-to-git:
+    name: Release to Git
+    needs:
+      - test
+      - check-release
+      - check-build-controller
+      - check-build-peribolos
+    runs-on: ubuntu-latest
+    outputs:
+      tag: v${{ steps.semantic.outputs.new_release_version }}
+    steps:
+      - name: Update comment
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          comment-id: ${{ needs.check-release.outputs.comment-id}}
+          body: |
+            📦 Releasing to Github
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Read Node.JS version
+        id: node_version
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ./.nvmrc
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "${{ steps.node_version.outputs.content }}"
+
+      - name: Cache Node.js modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-node-
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Release via semantic-release
+        uses: cycjimmy/semantic-release-action@v2
+        id: semantic
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update comment
+        uses: peter-evans/create-or-update-comment@v1
+        if: ${{ steps.semantic.outputs.new_release_published != 'true' }}
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          comment-id: ${{ needs.check-release.outputs.comment-id }}
+          body: |
+            ⛔ Semantic release determined that no release is needed, closing
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Close issue
+        uses: peter-evans/close-issue@v1
+        if: ${{ steps.semantic.outputs.new_release_published != 'true' }}
+        with:
+          issue-number: ${{ github.event.issue.number }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Exit on failure
+        if: ${{ steps.semantic.outputs.new_release_published != 'true' }}
+        run: exit 1
+
+      - name: Update comment
+        uses: peter-evans/create-or-update-comment@v1
+        if: ${{ steps.semantic.outputs.new_release_published == 'true' }}
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          comment-id: ${{ needs.check-release.outputs.comment-id }}
+          body: |
+            🎁 Publishing to Quay.io
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build-push-controller:
+    name: Build and Push Controller
+    runs-on: ubuntu-latest
+    needs:
+      - check-release
+      - release-to-git
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ needs.release-to-git.outputs.tag }}
+
+      - name: Build
+        uses: ./.github/actions/build-controller
+        id: build
+        with:
+          tags: ${{ github.sha }} ${{ needs.release-to-git.outputs.tag }}
+
+      - name: Push To Quay
+        uses: redhat-actions/push-to-registry@v2
+        id: push
+        with:
+          image: peribolos-as-a-service
+          tags: ${{ github.sha }} ${{ needs.release-to-git.outputs.tag }}
+          registry: quay.io/open-services-group
+          username: ${{ secrets.QUAY_USERNAME }}
+          password: ${{ secrets.QUAY_PASSWORD }}
+
+      - name: Update comment
+        uses: peter-evans/create-or-update-comment@v1
+        if: ${{ always() }}
+        id: comment
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          comment-id: ${{ needs.check-release.outputs.comment-id }}
+          body: ${{ steps.build.outcome == 'success' && steps.push.outcome == 'success' && '🙌 Controller container released to Quay' || '💣 Failed to release Controller container ' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build-push-peribolos:
+    name: Build and Push Peribolos
+    runs-on: ubuntu-latest
+    needs:
+      - check-release
+      - release-to-git
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ needs.release-to-git.outputs.tag }}
+
+      - name: Build
+        uses: ./.github/actions/build-peribolos
+        id: build
+        with:
+          tags: ${{ github.sha }} ${{ needs.release-to-git.outputs.tag }}
+
+      - name: Push To Quay
+        uses: redhat-actions/push-to-registry@v2
+        id: push
+        with:
+          image: peribolos
+          tags: ${{ github.sha }} ${{ needs.release-to-git.outputs.tag }}
+          registry: quay.io/open-services-group
+          username: ${{ secrets.QUAY_USERNAME }}
+          password: ${{ secrets.QUAY_PASSWORD }}
+
+      - name: Update comment
+        uses: peter-evans/create-or-update-comment@v1
+        if: ${{ always() }}
+        id: comment
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          comment-id: ${{ needs.check-release.outputs.comment-id }}
+          body: ${{ steps.build.outcome == 'success' && steps.push.outcome == 'success' && '🙌 Peribolos container released to Quay' || '💣 Failed to release Peribolos container' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  post-build:
+    name: Report status and close issue
+    needs:
+      - check-release
+      - build-push-controller
+      - build-push-peribolos
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update comment
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          comment-id: ${{ needs.check-release.outputs.comment-id }}
+          body: |
+            🎉 Released!
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Close issue
+        uses: peter-evans/close-issue@v1
+        with:
+          issue-number: ${{ github.event.issue.number }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

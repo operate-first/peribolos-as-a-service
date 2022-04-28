@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Base image
-NODEJS_BASE_IMAGE=$(cat .aicoe-ci.yaml | grep -oP '(?<=base-image: ).*')
+NODEJS_BASE_IMAGE=$(cat .s2ibase)
 
 # Checks whether the important programs are installed
 if ! command -v podman &> /dev/null; then
