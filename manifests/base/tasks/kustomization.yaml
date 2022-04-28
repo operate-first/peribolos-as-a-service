@@ -1,0 +1,11 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- dump-config.yaml
+- run.yaml
+configurations:
+- .transformers.yaml
+namePrefix: peribolos-
+commonLabels:
+  app.kubernetes.io/component: task

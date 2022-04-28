@@ -2,7 +2,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  name: peribolos-run
+  name: run
 spec:
   params:
   - name: REPO_NAME
@@ -12,7 +12,7 @@ spec:
     type: string
   steps:
     - name: apply-peribolos
-      image: quay.io/operate-first/opf-toolbox
+      image: toolbox
       env:
         - name: GITHUB_TOKEN
           valueFrom:

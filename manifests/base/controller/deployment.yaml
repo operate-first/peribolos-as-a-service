@@ -1,0 +1,49 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: controller
+spec:
+  replicas: 1
+  selector:
+    app.kubernetes.io/component: controller
+  template:
+    metadata:
+      commonLabels:
+        app.kubernetes.io/component: controller
+    spec:
+      serviceAccountName: peribolos-controller
+      containers:
+      - name: controller
+        image: controller
+        imagePullPolicy: Always
+        env:
+        - name: WEBHOOK_SECRET
+          valueFrom:
+            secretKeyRef:
+              key: webhook_secret
+              name: controller
+        - name: APP_ID
+          valueFrom:
+            secretKeyRef:
+              key: app_id
+              name: controller
+        - name: PRIVATE_KEY
+          valueFrom:
+            secretKeyRef:
+              key: private_key
+              name: controller
+        - name: NODE_ENV
+          value: "production"
+        - name: LOG_LEVEL
+          value: "debug"
+        ports:
+        - containerPort: 3000
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 500Mi
+            memory: 256Mi
+          requests:
+            cpu: 200Mi
+            memory: 100Mi
