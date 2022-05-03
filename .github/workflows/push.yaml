@@ -1,0 +1,61 @@
+name: Push
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Test
+        uses: ./.github/actions/test
+
+  build-controller:
+    name: Build and Push Controller
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Build
+        uses: ./.github/actions/build-controller
+        with:
+          tags: ${{ github.sha }} latest
+
+      - name: Push To Quay
+        uses: redhat-actions/push-to-registry@v2
+        if: ${{ github.repository == 'open-services-group/peribolos-as-a-service'}}
+        with:
+          image: peribolos-as-a-service
+          tags: ${{ github.sha }} latest
+          registry: quay.io/open-services-group
+          username: ${{ secrets.QUAY_USERNAME }}
+          password: ${{ secrets.QUAY_PASSWORD }}
+
+  build-peribolos:
+    name: Build and Push Peribolos
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Build
+        uses: ./.github/actions/build-peribolos
+        with:
+          tags: ${{ github.sha }} latest
+
+      - name: Push To Quay
+        uses: redhat-actions/push-to-registry@v2
+        if: ${{ github.repository == 'open-services-group/peribolos-as-a-service'}}
+        with:
+          image: peribolos
+          tags: ${{ github.sha }} latest
+          registry: quay.io/open-services-group
+          username: ${{ secrets.QUAY_USERNAME }}
+          password: ${{ secrets.QUAY_PASSWORD }}

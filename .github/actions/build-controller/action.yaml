@@ -1,0 +1,22 @@
+name: Build Controller
+description: Build Controller container as an S2I image
+inputs:
+  tags:
+    type: string
+    default: ${{ github.sha }}
+runs:
+  using: "composite"
+  steps:
+    - name: Read S2I base image
+      id: s2ibase
+      uses: juliangruber/read-file-action@v1
+      with:
+        path: ./.s2ibase
+
+    - name: S2I Build
+      uses: redhat-actions/s2i-build@v2
+      with:
+        path_context: "."
+        builder_image: "${{ steps.s2ibase.outputs.content }}"
+        image: peribolos-as-a-service
+        tags: "${{ inputs.tags }}"

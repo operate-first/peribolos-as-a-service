@@ -16,6 +16,10 @@
     "probot": "^11.0.1"
   },
   "devDependencies": {
+    "@semantic-release/changelog": "^6.0.1",
+    "@semantic-release/exec": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^8.0.4",
     "@types/jest": "^26.0.19",
     "@types/node": "^14.14.19",
     "@typescript-eslint/eslint-plugin": "^5.19.0",
@@ -61,5 +65,32 @@
   },
   "prettier": {
     "singleQuote": true
+  },
+  "release": {
+    "branches": "main",
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/changelog",
+      "@semantic-release/npm",
+      [
+        "@semantic-release/exec",
+        {
+          "prepareCmd": "sed -i 's/\\( *newTag: \\).*$/\\1${nextRelease.gitTag}/g' manifests/overlays/stage/kustomization.yaml"
+        }
+      ],
+      [
+        "@semantic-release/git",
+        {
+          "assets": [
+            "CHANGELOG.md",
+            "package.json",
+            "package-lock.json",
+            "manifests/overlays/stage/kustomization.yaml"
+          ]
+        }
+      ],
+      "@semantic-release/github"
+    ]
   }
 }

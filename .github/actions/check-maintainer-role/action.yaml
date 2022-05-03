@@ -1,0 +1,63 @@
+name: Check actor's maintainer role
+description: Check if actor is has write permission to the repo and report back in a comment
+inputs:
+  success:
+    required: true
+    type: string
+  failure:
+    required: true
+    type: string
+  label:
+    required: true
+    type: string
+  token:
+    required: true
+    type: string
+outputs:
+  comment-id:
+    description: "ID of the comment created on target issue"
+    value: ${{ steps.comment.outputs.comment-id }}
+runs:
+  using: "composite"
+  steps:
+    - name: Check if user has write access
+      uses: lannonbr/repo-permission-check-action@2.0.0
+      continue-on-error: true
+      id: access
+      with:
+        permission: write
+      env:
+        GITHUB_TOKEN: ${{ inputs.token }}
+
+    - name: Check issue label
+      if: ${{ !contains(github.event.issue.labels.*.name, inputs.label) }}
+      continue-on-error: true
+      id: releaseLabel
+      shell: bash
+      run: exit 1
+
+    - name: Close Issue
+      uses: peter-evans/close-issue@v1
+      if: ${{ !steps.access.outcome == 'failure' && steps.releaseLabel.outcome == 'success' }}
+      with:
+        issue-number: ${{ github.event.issue.number }}
+        body: |
+          ⛔ You're not a maintainer @${{ github.event.issue.user.id }}. ${{ inputs.failure }}
+      env:
+        GITHUB_TOKEN: ${{ inputs.token }}
+
+    - name: Exit on failure
+      if: ${{ steps.access.outcome == 'failure' || steps.releaseLabel.outcome == 'failure' }}
+      shell: bash
+      run: exit 1
+
+    - name: Create success comment
+      uses: peter-evans/create-or-update-comment@v1
+      if: ${{ success() }}
+      id: comment
+      with:
+        issue-number: ${{ github.event.issue.number }}
+        body: |
+          🚀 ${{ inputs.success }} from ${{ github.sha }}. Job started [here](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}).
+      env:
+        GITHUB_TOKEN: ${{ inputs.token }}
