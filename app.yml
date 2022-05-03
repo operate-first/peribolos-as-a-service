@@ -13,17 +13,18 @@
 # The list of events the GitHub App subscribes to.
 # Uncomment the event names below to enable them.
 default_events:
-  # - check_run
-  # - check_suite
-  # - commit_comment
-  # - create
-  # - delete
-  # - deployment
-  # - deployment_status
-  # - fork
-  # - gollum
-  # - issue_comment
-  - issues
+# - check_run
+# - check_suite
+# - commit_comment
+# - create
+# - delete
+# - deployment
+# - deployment_status
+# - fork
+# - gollum
+# - issue_comment
+# - issues
+- installation
 # - label
 # - milestone
 # - member
@@ -38,7 +39,7 @@ default_events:
 # - pull_request
 # - pull_request_review
 # - pull_request_review_comment
-# - push
+- push
 # - release
 # - repository
 # - repository_import

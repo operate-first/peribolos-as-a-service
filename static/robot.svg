@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="440"
+   height="440"
+   viewBox="0 0 439.99999 440.00001"
+   version="1.1"
+   id="svg121"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs5">
+    <clipPath
+       id="a"
+       transform="translate(-0.84 -0.67)">
+      <rect
+         x="147.92"
+         y="163.83"
+         width="52.5"
+         height="18.17"
+         rx="9.0799999"
+         ry="9.0799999"
+         style="fill:none"
+         id="rect2" />
+    </clipPath>
+  </defs>
+  <title
+     id="title7">robot</title>
+  <g
+     id="g12"
+     transform="matrix(0.20781874,0,0,0.20781874,-69.891112,262.60227)" />
+  <g
+     id="g14"
+     transform="matrix(0.20781874,0,0,0.20781874,-69.891112,262.60227)" />
+  <g
+     id="g16"
+     transform="matrix(0.20781874,0,0,0.20781874,-69.891112,262.60227)" />
+  <g
+     id="g18"
+     transform="matrix(0.20781874,0,0,0.20781874,-69.891112,262.60227)" />
+  <g
+     id="g20"
+     transform="matrix(0.20781874,0,0,0.20781874,-69.891112,262.60227)" />
+  <g
+     id="g22"
+     transform="matrix(0.20781874,0,0,0.20781874,-69.891112,262.60227)" />
+  <g
+     id="g24"
+     transform="matrix(0.20781874,0,0,0.20781874,-69.891112,262.60227)" />
+  <g
+     id="g26"
+     transform="matrix(0.20781874,0,0,0.20781874,-69.891112,262.60227)" />
+  <g
+     id="g28"
+     transform="matrix(0.20781874,0,0,0.20781874,-69.891112,262.60227)" />
+  <g
+     id="g30"
+     transform="matrix(0.20781874,0,0,0.20781874,-69.891112,262.60227)" />
+  <g
+     id="g32"
+     transform="matrix(0.20781874,0,0,0.20781874,-69.891112,262.60227)" />
+  <g
+     id="g34"
+     transform="matrix(0.20781874,0,0,0.20781874,-69.891112,262.60227)" />
+  <g
+     id="g36"
+     transform="matrix(0.20781874,0,0,0.20781874,-69.891112,262.60227)" />
+  <g
+     id="g38"
+     transform="matrix(0.20781874,0,0,0.20781874,-69.891112,262.60227)" />
+  <g
+     id="g40"
+     transform="matrix(0.20781874,0,0,0.20781874,-69.891112,262.60227)" />
+  <metadata
+     id="metadata940">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:title>robot</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="g960"
+     transform="translate(46.689199,15.020004)">
+    <rect
+       x="153.16"
+       y="196.39999"
+       width="40"
+       height="19.482121"
+       style="fill:#aedfe4;stroke-width:1.08662"
+       id="rect11" />
+    <rect
+       x="134.41"
+       y="303.67001"
+       width="77.5"
+       height="16.5"
+       style="fill:#aedfe4"
+       id="rect13" />
+    <path
+       d="M 136.25,354.42 A 56,56 0 0 1 117.92,316 h 112.16 a 56,56 0 0 1 -18.33,38.43 z"
+       transform="translate(-0.84,-0.67)"
+       style="fill:#282828;fill-opacity:1"
+       id="path81" />
+    <polygon
+       points="234.97,257 238.3,234.33 266.3,252.33 286.47,218.33 301.3,235.33 277.3,274.17 263.97,275.17 "
+       style="fill:#aedfe4"
+       id="polygon9" />
+    <polygon
+       points="173.16,10.15 183.35,52.77 162.73,52.77 "
+       style="fill:#aedfe4"
+       id="polygon15" />
+    <polygon
+       points="111.66,257 108.33,234.33 80.33,252.33 60.16,218.33 45.33,235.33 69.33,274.17 82.66,275.17 "
+       style="fill:#aedfe4"
+       id="polygon17" />
+    <rect
+       x="107.16"
+       y="210.33"
+       width="132"
+       height="98.669998"
+       rx="14.67"
+       ry="14.67"
+       style="fill:#282828;fill-opacity:1"
+       id="rect25" />
+    <path
+       d="m 34.5,202 c 0,0 -8.67,5.33 -14.67,-14 -6.62,-21.35 -20.66,-5.86 -18.83,9.65 1.83,15.51 14.5,20 25.83,16.52 C 38.16,210.69 34.5,202 34.5,202 Z"
+       transform="translate(-0.84,-0.67)"
+       style="fill:#ef4236"
+       id="path19" />
+    <path
+       d="m 32.33,167.33 a 8.47,8.47 0 0 1 8.33,-5.67 c 6.67,0 22.83,7.5 22.83,21 0,13.5 -12.49,17.51 -12.49,17.51 H 40.17 c 0,0 7.33,-3.67 2,-14.17 -5.33,-10.5 -9.67,-14.5 -9.83,-17.83"
+       transform="translate(-0.84,-0.67)"
+       style="fill:#ef4236"
+       id="path21" />
+    <path
+       d="m 24.25,225.95 c -2.83,-10 1.8,-21.24 11.73,-26.76 9.93,-5.52 22,-3.52 29,4.21 z"
+       transform="translate(-0.84,-0.67)"
+       style="fill:#fdba63"
+       id="path23" />
+    <g
+       id="g31"
+       transform="translate(0.11132792,-0.14965522)">
+      <rect
+         x="125.16"
+         y="226.58"
+         width="96"
+         height="66.169998"
+         rx="10.17"
+         ry="10.17"
+         style="fill:#fdbb65"
+         id="rect27" />
+      <path
+         d="m 211.83,229.25 a 8.18,8.18 0 0 1 8.17,8.17 v 45.83 a 8.18,8.18 0 0 1 -8.17,8.17 H 136.17 A 8.18,8.18 0 0 1 128,283.25 v -45.83 a 8.18,8.18 0 0 1 8.17,-8.17 h 75.67 m 0,-4 H 136.17 A 12.17,12.17 0 0 0 124,237.42 v 45.83 a 12.17,12.17 0 0 0 12.17,12.17 h 75.67 A 12.17,12.17 0 0 0 224,283.25 v -45.83 a 12.17,12.17 0 0 0 -12.17,-12.17 z"
+         transform="translate(-0.84,-0.67)"
+         style="fill:#aedfe4"
+         id="path29" />
+    </g>
+    <rect
+       x="72.160004"
+       y="50.330002"
+       width="202"
+       height="151"
+       rx="20.67"
+       ry="20.67"
+       style="fill:#08b0d8"
+       id="rect33" />
+    <rect
+       x="88.480003"
+       y="66"
+       width="169.37"
+       height="118.71"
+       rx="16.780001"
+       ry="16.780001"
+       style="fill:#aedfe4"
+       id="rect35" />
+    <path
+       d="M 67.22,197.65 A 27.34,27.34 0 0 1 19.09,223.59 Z"
+       transform="translate(-0.84,-0.67)"
+       style="fill:#08b0d8"
+       id="path37" />
+    <path
+       d="m 81,254.42 2.46,21.42 c 0,0 -1.92,2 -7.29,2 -5.37,0 -6,-3 -6,-3 z"
+       transform="translate(-0.84,-0.67)"
+       style="fill:#08b0d8;fill-opacity:1"
+       id="path39" />
+    <circle
+       cx="46.799999"
+       cy="218.96001"
+       r="4.0599999"
+       style="fill:#aedfe4"
+       id="circle41" />
+    <circle
+       cx="85.18"
+       cy="187.44"
+       r="4.0599999"
+       style="fill:#aedfe4"
+       id="circle43" />
+    <circle
+       cx="260.10001"
+       cy="187.44"
+       r="4.0599999"
+       style="fill:#aedfe4"
+       id="circle45" />
+    <circle
+       cx="85.18"
+       cy="64.440002"
+       r="4.0599999"
+       style="fill:#aedfe4"
+       id="circle47" />
+    <circle
+       cx="260.10001"
+       cy="64.440002"
+       r="4.0599999"
+       style="fill:#aedfe4"
+       id="circle49" />
+    <path
+       d="m 105.5,224.17 v 31 L 90.08,234.08 a 19.14,19.14 0 0 1 15.42,-9.91 z"
+       transform="translate(-0.84,-0.67)"
+       style="fill:#282828;fill-opacity:1"
+       id="path59" />
+    <path
+       d="m 313.8,202 c 0,0 8.67,5.33 14.67,-14 6.62,-21.35 20.67,-5.86 18.83,9.65 -1.84,15.51 -14.5,20 -25.83,16.52 C 310.14,210.69 313.8,202 313.8,202 Z"
+       transform="translate(-0.84,-0.67)"
+       style="fill:#ef4236"
+       id="path61" />
+    <path
+       d="m 316,167.33 a 8.47,8.47 0 0 0 -8.33,-5.67 c -6.67,0 -22.83,7.5 -22.83,21 0,13.5 12.5,17.5 12.5,17.5 h 10.83 c 0,0 -7.33,-3.67 -2,-14.17 5.33,-10.5 9.67,-14.5 9.83,-17.83"
+       transform="translate(-0.84,-0.67)"
+       style="fill:#ef4236"
+       id="path63" />
+    <path
+       d="m 324,225.95 c 2.83,-10 -1.8,-21.24 -11.73,-26.76 -9.93,-5.52 -22,-3.52 -29,4.21 z"
+       transform="translate(-0.84,-0.67)"
+       style="fill:#fdba63"
+       id="path65" />
+    <path
+       d="m 281.08,197.65 a 27.34,27.34 0 0 0 48.13,25.94 z"
+       transform="translate(-0.84,-0.67)"
+       style="fill:#08b0d8"
+       id="path67" />
+    <path
+       d="m 267.26,254.42 -2.46,21.42 c 0,0 1.92,2 7.29,2 5.37,0 6,-3 6,-3 z"
+       transform="translate(-0.84,-0.67)"
+       style="fill:#08b0d8;fill-opacity:1"
+       id="path69" />
+    <circle
+       cx="299.82999"
+       cy="218.96001"
+       r="4.0599999"
+       style="fill:#aedfe4"
+       id="circle71" />
+    <path
+       d="m 242.8,224.17 v 31 l 15.42,-21.08 a 19.14,19.14 0 0 0 -15.42,-9.92 z"
+       transform="translate(-0.84,-0.67)"
+       style="fill:#282828;fill-opacity:1"
+       id="path73" />
+    <rect
+       x="114.16"
+       y="361.95999"
+       width="118"
+       height="9.5"
+       rx="4.75"
+       ry="4.75"
+       style="fill:#fdbb65"
+       id="rect75" />
+    <rect
+       x="131.41"
+       y="381.20999"
+       width="83.5"
+       height="9.5"
+       rx="4.75"
+       ry="4.75"
+       style="fill:#fdbb65"
+       id="rect77" />
+    <rect
+       x="151.91"
+       y="400.45999"
+       width="42.5"
+       height="9.5"
+       rx="4.75"
+       ry="4.75"
+       style="fill:#fdbb65"
+       id="rect79" />
+    <g
+       id="g89">
+      <circle
+         cx="132.64999"
+         cy="123.97"
+         r="15.51"
+         id="circle83" />
+      <path
+         d="M 133.49,109.12 A 15.51,15.51 0 1 1 118,124.64 15.51,15.51 0 0 1 133.51,109.13 m 0,-23 A 38.51,38.51 0 1 0 172,124.64 38.55,38.55 0 0 0 133.49,86.13 Z"
+         transform="translate(-0.84,-0.67)"
+         style="fill:#08b0d8"
+         id="path85" />
+      <path
+         d="M 133.49,109.12 A 15.51,15.51 0 1 1 118,124.64 15.51,15.51 0 0 1 133.51,109.13 m 0,-14 A 29.51,29.51 0 1 0 163,124.64 29.54,29.54 0 0 0 133.49,95.13 Z"
+         transform="translate(-0.84,-0.67)"
+         style="fill:#f1f1f2"
+         id="path87" />
+    </g>
+    <g
+       id="g97">
+      <circle
+         cx="214.64999"
+         cy="123.97"
+         r="15.51"
+         id="circle91" />
+      <path
+         d="M 215.49,109.12 A 15.51,15.51 0 1 1 200,124.64 15.51,15.51 0 0 1 215.51,109.13 m 0,-23 A 38.51,38.51 0 1 0 254,124.64 38.55,38.55 0 0 0 215.49,86.13 Z"
+         transform="translate(-0.84,-0.67)"
+         style="fill:#08b0d8"
+         id="path93" />
+      <path
+         d="M 215.49,109.12 A 15.51,15.51 0 1 1 200,124.64 15.51,15.51 0 0 1 215.51,109.13 m 0,-14 A 29.51,29.51 0 1 0 245,124.64 29.54,29.54 0 0 0 215.49,95.13 Z"
+         transform="translate(-0.84,-0.67)"
+         style="fill:#f1f1f2"
+         id="path95" />
+    </g>
+    <rect
+       x="147.08"
+       y="163.17"
+       width="52.5"
+       height="18.17"
+       rx="9.0799999"
+       ry="9.0799999"
+       style="fill:#fdbb65"
+       id="rect99" />
+    <g
+       clip-path="url(#a)"
+       id="g113">
+      <g
+         id="g111">
+        <rect
+           x="153.23"
+           y="162.14999"
+           width="3.1199999"
+           height="20.559999"
+           style="fill:#ef4236"
+           id="rect101" />
+        <rect
+           x="162.28999"
+           y="162.14999"
+           width="3.1300001"
+           height="20.559999"
+           style="fill:#ef4236"
+           id="rect103" />
+        <rect
+           x="171.35001"
+           y="162.14999"
+           width="3.1199999"
+           height="20.559999"
+           style="fill:#ef4236"
+           id="rect105" />
+        <rect
+           x="180.41"
+           y="162.14999"
+           width="3.1300001"
+           height="20.559999"
+           style="fill:#ef4236"
+           id="rect107" />
+        <rect
+           x="189.48"
+           y="162.14999"
+           width="3.1199999"
+           height="20.559999"
+           style="fill:#ef4236"
+           id="rect109" />
+      </g>
+    </g>
+    <circle
+       cx="173.16"
+       cy="14.67"
+       r="14.67"
+       style="fill:#ef4236"
+       id="circle115" />
+    <polyline
+       points="126.33 261.63 136 261.63 147.98 242.96 158.69 261.63 165.84 249.01 173.25 261.63 186.5 261.63 193.57 275.6 205.31 250.41 211.08 261.63 219.5 261.63"
+       style="fill:none;stroke:#ef4236;stroke-width:4px;stroke-linecap:round;stroke-linejoin:round"
+       id="polyline117" />
+    <path
+       d="m 211.83,229.25 a 8.18,8.18 0 0 1 8.17,8.17 v 45.83 a 8.18,8.18 0 0 1 -8.17,8.17 H 136.17 A 8.18,8.18 0 0 1 128,283.25 v -45.83 a 8.18,8.18 0 0 1 8.17,-8.17 h 75.67 m 0,-4 H 136.17 A 12.17,12.17 0 0 0 124,237.42 v 45.83 a 12.17,12.17 0 0 0 12.17,12.17 h 75.67 A 12.17,12.17 0 0 0 224,283.25 v -45.83 a 12.17,12.17 0 0 0 -12.17,-12.17 z"
+       style="fill:#aedfe4"
+       id="path119"
+       transform="translate(-0.84,-0.67)" />
+    <polygon
+       points="529.1,45.9 470.8,45.9 490.2,84.8 450.6,139.4 500,415.9 549.3,139.4 509.7,84.8 "
+       id="polygon4"
+       transform="matrix(0.20781874,0,0,0.20781874,67.188229,200.62147)"
+       style="fill:#08b0d8;fill-opacity:1" />
+    <path
+       id="path6"
+       style="fill:#282828;fill-opacity:1;stroke-width:0.212612;stroke-miterlimit:4;stroke-dasharray:none"
+       d="M 116.08762,223.52222 V 295.4171 H 164.176 l -12.43727,-71.89488 z" />
+    <path
+       id="path6-3"
+       style="fill:#282828;fill-opacity:1;stroke-width:0.212612;stroke-miterlimit:4;stroke-dasharray:none"
+       d="m 225.73848,223.8363 v 71.89488 H 177.6501 l 12.43727,-71.89488 z" />
+    <circle
+       cx="227.98"
+       cy="223.02"
+       r="4.0599999"
+       style="fill:#aedfe4"
+       id="circle55" />
+    <circle
+       cx="227.98"
+       cy="298.14999"
+       r="4.0599999"
+       style="fill:#aedfe4"
+       id="circle57" />
+    <circle
+       cx="119.1"
+       cy="223.02"
+       r="4.0599999"
+       style="fill:#aedfe4"
+       id="circle51" />
+    <circle
+       cx="119.1"
+       cy="298.14999"
+       r="4.0599999"
+       style="fill:#aedfe4"
+       id="circle53" />
+    <path
+       id="path6-6"
+       d="m 206.05827,238.75367 -11.75892,14.50168 17.80701,-2.47314 h -0.0228 v -7.37426 z"
+       style="fill:#08b0d8;fill-opacity:1;stroke-width:0.224833" />
+  </g>
+</svg>
