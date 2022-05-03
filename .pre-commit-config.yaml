@@ -1,5 +1,5 @@
 ---
-exclude: ".patch"
+exclude: ".patch|test/fixtures/mock-cert.pem"
 repos:
   - repo: https://github.com/Lucas-C/pre-commit-hooks
     rev: v1.1.11
@@ -15,6 +15,7 @@ repos:
       - id: check-added-large-files
       - id: check-case-conflict
       - id: detect-private-key
+
       - id: check-yaml
         args: [--allow-multiple-documents]
 

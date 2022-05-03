@@ -1,0 +1,4 @@
+[allowlist]
+paths = [
+  "test/fixtures/mock-cert.pem"
+]
