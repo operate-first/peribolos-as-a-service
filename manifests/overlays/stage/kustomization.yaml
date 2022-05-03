@@ -7,7 +7,7 @@ configurations:
   - .transformers.yaml
 generators:
   - .ksops.yaml
-namespace: peribolos-as-a-service
+namespace: peribolos-as-a-service-stage
 images:
   - name: quay.io/open-services-group/peribolos-as-a-service
     newTag: v0.0.1

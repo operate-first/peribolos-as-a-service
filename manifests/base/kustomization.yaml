@@ -2,17 +2,17 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - deployment-config.yaml
-  - imagestream.yaml
-  - peribolos-dump-config.yaml
-  - peribolos-run.yaml
-  - role-binding.yaml
-  - role.yaml
-  - route.yaml
-  - secret.yaml
-  - service-account.yaml
-  - service.yaml
+- controller
+- tasks
 commonLabels:
   app.kubernetes.io/name: peribolos-as-service
-  app.kubernetes.io/component: peribolos
   app.kubernetes.io/managed-by: sig-services
+images:
+- name: peribolos
+  newName: quay.io/open-services-group/peribolos
+- name: toolbox
+  newName: quay.io/operate-first/opf-toolbox
+- name: python
+  newName: registry.access.redhat.com/ubi8/python-38
+- name: controller
+  newName: quay.io/open-services-group/peribolos-as-a-service

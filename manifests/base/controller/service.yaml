@@ -1,0 +1,13 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: controller
+spec:
+  ports:
+  - name: webhook
+    protocol: TCP
+    port: 80
+    targetPort: 3000
+  selector:
+    app.kubernetes.io/component: controller

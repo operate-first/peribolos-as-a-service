@@ -2,7 +2,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  name: peribolos-dump-config
+  name: dump-config
 spec:
   params:
   - name: REPO_NAME
@@ -12,7 +12,7 @@ spec:
     type: string
   steps:
     - name: dump-config
-      image: quay.io/skopecky/peribolos-fix
+      image: peribolos
       volumeMounts:
         - mountPath: /mnt/shared
           name: shared-data
@@ -29,7 +29,7 @@ spec:
 
         peribolos --dump $ORG_NAME --github-token-path /mnt/secret/token > /mnt/shared/peribolos.yaml
     - name: push-config
-      image: quay.io/operate-first/opf-toolbox
+      image: toolbox
       volumeMounts:
         - mountPath: /mnt/shared
           name: shared-data
@@ -87,7 +87,7 @@ spec:
         git commit -m "Add initial yaml config"
         git push origin $BRANCH_NAME
     - name: open-pr
-      image: registry.access.redhat.com/ubi8/python-38:1-34.1599745032
+      image: python
       volumeMounts:
         - mountPath: /mnt/shared
           name: shared-data
