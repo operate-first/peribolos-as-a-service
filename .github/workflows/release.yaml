@@ -37,7 +37,7 @@ jobs:
         uses: ./.github/actions/test
 
       - name: Update comment
-        uses: peter-evans/create-or-update-comment@v1
+        uses: peter-evans/create-or-update-comment@v2
         if: ${{ always() }}
         id: comment
         with:
@@ -60,7 +60,7 @@ jobs:
         uses: ./.github/actions/build-controller
 
       - name: Update comment
-        uses: peter-evans/create-or-update-comment@v1
+        uses: peter-evans/create-or-update-comment@v2
         if: ${{ always() }}
         id: comment
         with:
@@ -83,7 +83,7 @@ jobs:
         uses: ./.github/actions/build-peribolos
 
       - name: Update comment
-        uses: peter-evans/create-or-update-comment@v1
+        uses: peter-evans/create-or-update-comment@v2
         if: ${{ always() }}
         id: comment
         with:
@@ -105,7 +105,7 @@ jobs:
       tag: v${{ steps.semantic.outputs.new_release_version }}
     steps:
       - name: Update comment
-        uses: peter-evans/create-or-update-comment@v1
+        uses: peter-evans/create-or-update-comment@v2
         with:
           issue-number: ${{ github.event.issue.number }}
           comment-id: ${{ needs.check-release.outputs.comment-id}}
@@ -144,7 +144,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update comment
-        uses: peter-evans/create-or-update-comment@v1
+        uses: peter-evans/create-or-update-comment@v2
         if: ${{ steps.semantic.outputs.new_release_published != 'true' }}
         with:
           issue-number: ${{ github.event.issue.number }}
@@ -167,7 +167,7 @@ jobs:
         run: exit 1
 
       - name: Update comment
-        uses: peter-evans/create-or-update-comment@v1
+        uses: peter-evans/create-or-update-comment@v2
         if: ${{ steps.semantic.outputs.new_release_published == 'true' }}
         with:
           issue-number: ${{ github.event.issue.number }}
@@ -206,7 +206,7 @@ jobs:
           password: ${{ secrets.QUAY_PASSWORD }}
 
       - name: Update comment
-        uses: peter-evans/create-or-update-comment@v1
+        uses: peter-evans/create-or-update-comment@v2
         if: ${{ always() }}
         id: comment
         with:
@@ -245,7 +245,7 @@ jobs:
           password: ${{ secrets.QUAY_PASSWORD }}
 
       - name: Update comment
-        uses: peter-evans/create-or-update-comment@v1
+        uses: peter-evans/create-or-update-comment@v2
         if: ${{ always() }}
         id: comment
         with:
@@ -264,7 +264,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Update comment
-        uses: peter-evans/create-or-update-comment@v1
+        uses: peter-evans/create-or-update-comment@v2
         with:
           issue-number: ${{ github.event.issue.number }}
           comment-id: ${{ needs.check-release.outputs.comment-id }}
