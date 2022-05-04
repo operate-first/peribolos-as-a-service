@@ -4,7 +4,7 @@
         ":gitSignOff",
         "group:allNonMajor",
         "group:linters",
-        "group:semantic-releaseMonorepo",
+        "group:semantic-releaseMonorepo"
     ],
     "npm": {
         "stabilityDays": 3
