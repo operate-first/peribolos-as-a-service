@@ -15,7 +15,7 @@ export default (appBase: Probot) => {
     const orgName = context.payload.installation.account.login;
 
     // Iterate over the list of repositories for .github repo
-    const repo_exist = Boolean(repos.find((r) => r.name === '.github'));
+    const repo_exist = Boolean(repos?.find((r) => r.name === '.github'));
 
     if (!repo_exist) {
       app.log.info("Creating '.github' repository.");
@@ -88,7 +88,7 @@ export default (appBase: Probot) => {
             ...commit.modified,
             ...commit.removed,
           ],
-          []
+          [] as string[]
         )
         .find((name: string) => name == 'peribolos.yaml')
     );
