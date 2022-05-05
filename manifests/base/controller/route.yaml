@@ -3,8 +3,6 @@ kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
   name: controller
-  annotations:
-    kubernetes.io/tls-acme: "true"
 spec:
   to:
     kind: Service
