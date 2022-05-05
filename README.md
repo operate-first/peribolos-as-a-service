@@ -1,128 +1,56 @@
-# Peribolos as a service
+<p align="center">
+  <a href="https://github.com/apps/peribolos"><img src="https://github.com/open-services-group/peribolos-as-a-service/blob/main/static/robot.svg" width="160" alt="Probot's logo, a cartoon robot" /></a>
+</p>
+<h3 align="center"><a href="https://github.com/apps/peribolos">Peribolos</a></h3>
+<p align="center">GitHub organization management as code</p>
+<p align="center">
+  <a href="https://github.com/open-services-group/peribolos-as-a-service/releases">
+    <img alt="GitHub tag (latest by date)" src="https://img.shields.io/github/v/tag/open-services-group/peribolos-as-a-service">
+  </a>
+  <a href="https://github.com/open-services-group/peribolos-as-a-service/actions?query=workflow%3APush">
+    <img src="https://img.shields.io/github/workflow/status/open-services-group/peribolos-as-a-service/Push" alt="Build Status">
+  </a>
+  <a href="https://github.com/open-services-group/peribolos-as-a-service">
+    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/open-services-group/peribolos-as-a-service">
+  </a>
+  <a href="https://github.com/open-services-group/peribolos-as-a-service/blob/main/LICENSE">
+    <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="license">
+  </a>
+  <a href="https://github.com/open-services-group/peribolos-as-a-service/issues?q=is%3Aissue+is%3Aopen+label%3Akind%2Fbug">
+    <img alt="Reported bugs" src="https://img.shields.io/github/issues-search/open-services-group/peribolos-as-a-service?color=red&label=reported%20bugs&query=is%3Aopen%20label%3Akind%2Fbug">
+  </a>
+  <a href="https://github.com/open-services-group/peribolos-as-a-service/issues?q=is%3Aissue+is%3Aopen+label%3Akind%2Fbug">
+  <img alt="Feature requests" src="https://img.shields.io/github/issues-search/open-services-group/peribolos-as-a-service?label=feature%20requests&query=is%3Aopen%20label%3Akind%2Ffeature">
+  </a>
+</p>
 
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/open-services-group/peribolos-as-a-service/blob/main/LICENSE)
-![GitHub Tag](https://img.shields.io/github/v/tag/open-services-group/peribolos-as-a-service?style=plastic)
-[![Docker Repository on Quay](https://quay.io/repository/open-services-group/peribolos-as-a-service/status "Docker Repository on Quay")](https://quay.io/repository/open-services-group/peribolos-as-a-service)
+---
 
-Learning exercise for OSG in how to make a managed service.
+[peribolos]: https://github.com/kubernetes/test-infra/tree/master/prow/cmd/peribolos
+[probot]: https://probot.github.io/
 
-In this exercise we would like to take a [Peribolos](https://github.com/kubernetes/test-infra/tree/master/prow/cmd/peribolos) tool and turn it into an automated, subscribable, and consumable service for declarative github organization management.
+If you ever wanted to manage your GitHub organization as code where everybody can simply open a PR and ask to create a team or make a repository, wait no more! This provided [Peribolos][peribolos] instance can help you in .
 
-<!-- Following instructions were taken from generated README file and headers were edited to be better understandable - more information about generating Probot app can be found here: https://probot.github.io/docs/development/#generating-a-new-app-->
-## Run directly using npm
+We are neither the original creators or maintainers of the Peribolos code base. [Peribolos tool belongs to Kubernetes project][peribolos] and they deserve all the credit.
 
-```sh
-# Install dependencies
-npm install
+## How it works
 
-# Run the bot
-npm start
-```
+Simply install this application. It will ensure a `.github` special repository exists in your repository. In addition to that, Peribolos will create a pull request to this repository for you with all your github organization settings exported to `peribolos.yaml` manifest.
 
-## Run inside container
+Later, on any change to this manifest pushed to the default branch, Peribolos will apply those changes to your organization.
 
-```sh
-# 1. Run supplied script which will create image
-./scripts/build-image.sh
+## Security implications
 
-# 2. Start container
-podman run -e APP_ID=<app-id> -e PRIVATE_KEY=<pem-value> peribolos-as-a-service
-```
+By installing this application you're granting a lot of permissions to our service - essentially granting Peribolos organization admin privileges. This is a great deal to us and we don't take security lightly. If you have any questions please review our [SUPPORT.md](SUPPORT.md) and [SECURITY.md](SECURITY.md) guides.
 
-## Dev Setup
+## Contributions
 
-The application is a Github app. For development, the developers have to replicate the same flow as Github App.
-Required steps:
+See [`CONTRIBUTING.md`](CONTRIBUTING.md) on how to contribute.
 
-1. Working on Source code for dev: Under your control :jack_o_lantern:
-2. Configure the environment: [Setup launch pad :basecamp:](#set-environment)
-3. Configure the webhook payload: [Ready for launch :fuelpump:](#provide-webhooks)
-4. Starting the service: [Launch :rocket:](#methods-of-developments)
+---
 
-### Set Environment
+### Credit
 
-The environment variable can be set:
-
-1. In the [.env](./.env) file for local setup.
-2. In the secrets manifests for cluster setup.
-
-Required Environment variables: `APP_ID` and `PRIVATE_KEY`
-Other Environment variable: `WEBHOOK_PROXY_URL` and `WEBHOOK_SECRET`
-Example: [.env.example](./.env.example)
-Reference: [docs](https://probot.github.io/docs/configuration/)
-
-### Methods of developments
-
-1. In local system
-   1. It's crucial your node version matches the one installed in the container deployment.
-      Using different version can make any packages installed in your development unusable when built into a container image.
-      Please install [NVM](https://github.com/nvm-sh/nvm) and set it up for NodeJS v16:
-
-      ```sh
-      # Install currently locked version from .nvmrc
-      nvm install
-      # Use this version
-      nvm use
-      ```
-
-      Note: `nvm use` can be called automatically by your shell on entering the directory, see docs on [NVM](https://github.com/nvm-sh/nvm#deeper-shell-integration) or use a plugin like [oh-my-zsh nvm](https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/nvm)
-
-   2. Remember to set environment variables via `.env` file. We require:
-      - `WEBHOOK_PROXY_URL` (use https://smee.io/ to obtain it, and set it in your GitHub Application config)
-      - `APP_ID` matching your GitHub Application config
-      - Optionally you should also set `PRIVATE_KEY` if your app's private key is located outside of the repository directory, see [Probot documentation](https://probot.github.io/docs/development/#manually-configuring-a-github-app) for more details
-
-   3. Run the app
-
-      ```sh
-      # Install dependencies
-      npm install --include=dev
-
-      # Run local instance with hot reloading
-      npm run dev
-      ```
-
-2. On OCP cluster:
-    One can use the deployment manifest, provided [here](./manifests/)
-    To deploy the app in an openshift/k8s cluster.
-
-    Then create a custom image of the dev work and swap the image in deployment with it.
-    There are two ways to do this:
-    1. Create a custom image by yourself and push it to the registry.
-
-        ```sh
-            ./scripts/build-image.sh
-            podman login quay.io
-            podman push localhost/peribolos-as-a-service <quay repo>
-        ```
-
-    2. Use the CI tool(Available for only Github org members listed in [here](./OWNERS)).
-        * Create a PR with all the changes.
-        * In comment type `/deploy`
-        * aicoe-ci would create a PR image at [quay.io/open-services-group/peribolos-as-service](https://quay.io/repository/open-services-group/peribolos-as-service?tab=tags).
-
-    Use the route URL from the openshift routes in the webhook setup.
-
-### Provide Webhooks
-
-The App requires a webhook payload of the GitHub application.
-Developer can utilize different methods to provide the webhook payload:
-
-* Provide Direct Github app webhook payload:
-  * Setup a Github App Under your Github user.
-    * Goto your `Github user setting` > `Developer Settings`
-        Reference: [Github Docs](https://docs.github.com/en/developers/apps/building-github-apps/creating-a-github-app)
-    * Create a new github app:
-      * Fill in name and other details
-      * For **Webhook URL** use the url setup in the [section](#methods-of-developments)
-      * Select permission required for development
-      * **Note**: At the end, select the app for your account to keep it simple.
-    * Once app is created, create the client secret for authentication.
-      * Reference: [docs](https://docs.github.com/en/developers/apps/building-github-apps/authenticating-with-github-apps)
-      * Set the `APP_ID` and `PRIVATE_KEY` in [environment](#set-environment)
-    * Install it on one repo or on your whole account.
-    * Triggered Webhook can be viewed under `Advance` section of the app.
-* Simulate Github app webhook payload:
-  * Provide payload from [test/fixtures](./test/fixtures/), where different payloads pertaining to different github event can be stored.
-    * Payload from fixture can be simulated via probot. Reference: [docs](https://probot.github.io/docs/simulating-webhooks/)
-    * Test suites can also be used. Reference: [docs](https://probot.github.io/docs/testing/)
+1. [Peribolos tool][peribolos] is created and maintained by the Kubernetes community
+2. This app is implemented via [Probot tooling][probot]
+3. Credit for logo goes to [Probot project][probot], we've just modified their original artwork
