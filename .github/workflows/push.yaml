@@ -38,6 +38,14 @@ jobs:
           username: ${{ secrets.QUAY_USERNAME }}
           password: ${{ secrets.QUAY_PASSWORD }}
 
+      - name: Set expiration
+        uses: ./.github/actions/set-expiration
+        with:
+          repository: open-services-group/peribolos-as-a-service
+          tag: ${{ github.sha }}
+          expiration: +1 week
+          token: ${{ secrets.QUAY_OAUTH_TOKEN }}
+
   build-peribolos:
     name: Build and Push Peribolos
     runs-on: ubuntu-latest
@@ -59,3 +67,11 @@ jobs:
           registry: quay.io/open-services-group
           username: ${{ secrets.QUAY_USERNAME }}
           password: ${{ secrets.QUAY_PASSWORD }}
+
+      - name: Set expiration
+        uses: ./.github/actions/set-expiration
+        with:
+          repository: open-services-group/peribolos
+          tag: ${{ github.sha }}
+          expiration: +1 week
+          token: ${{ secrets.QUAY_OAUTH_TOKEN }}

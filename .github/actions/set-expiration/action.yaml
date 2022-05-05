@@ -1,0 +1,26 @@
+name: Set Quay.io image expiration
+description: Set Quay.io image expiration
+inputs:
+  tag:
+    description: Tag to be updated
+    required: true
+  expiration:
+    description: Date parameter passed as date -d, set to false if you want to unset expiration
+  repository:
+    description: Quay.io repository in format org/repo
+    required: true
+  token:
+    description: Quay.io OAuth token
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Set Quay.io image expiration
+      shell: bash
+      run: |
+        [ "${{ inputs.expiration }}" = "false" ] && expiration=null || expiration=$(date +"%s" -d "${{ inputs.expiration }}")
+        curl -X PUT \
+             -d "{\"expiration\":$expiration}" \
+             -H 'Content-Type: application/json' \
+             -H "Authorization: Bearer ${{ inputs.token }}" \
+             https://quay.io/api/v1/repository/${{ inputs.repository }}/tag/${{ inputs.tag }}
