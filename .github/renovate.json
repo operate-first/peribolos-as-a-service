@@ -8,5 +8,19 @@
     ],
     "npm": {
         "stabilityDays": 3
-    }
+    },
+    "packageRules": [
+        {
+            "matchManagers": [
+                "kustomize"
+            ],
+            "enabled": false
+        },
+        {
+            "matchManagers": [
+                "github-actions"
+            ],
+            "groupName": "GitHub Actions"
+        }
+    ]
 }
