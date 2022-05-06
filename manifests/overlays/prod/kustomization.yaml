@@ -14,4 +14,4 @@ images:
   - name: quay.io/open-services-group/peribolos-as-a-service
     newTag: v0.0.1
   - name: quay.io/open-services-group/peribolos
-    newTag: v0.0.1
+    newTag: v1.0.0
