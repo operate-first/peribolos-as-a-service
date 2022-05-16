@@ -20,6 +20,7 @@ jobs:
           success: Promotion issue noticed. Promotion triggered
           failure: You can't trigger a environment promotion
           label: kind/promote
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Get images used in stage
         uses: mikefarah/yq@master
