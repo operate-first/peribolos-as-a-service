@@ -10,5 +10,7 @@ resources:
 - serviceaccount.yaml
 - service.yaml
 namePrefix: peribolos-
+configurations:
+- .transformers.yaml
 commonLabels:
   app.kubernetes.io/component: controller
