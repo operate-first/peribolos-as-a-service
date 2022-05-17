@@ -1,10 +1,9 @@
-import { ProbotOnKube } from './probotOnKube';
 import { Probot } from 'probot';
-import { V1Secret } from '@kubernetes/client-node';
+import { updateToken, kube } from './probotOnKube';
+import * as k8s from '@kubernetes/client-node';
 import { InstallationAccessTokenAuthentication } from '@octokit/auth-app';
 
-export default (appBase: Probot) => {
-  const app = appBase as ProbotOnKube;
+export default (app: Probot) => {
   // Respond to the GitHub app installation
   app.on('installation.created', async (context) => {
     // Get the installation token  and expiry time from the installation
@@ -26,7 +25,7 @@ export default (appBase: Probot) => {
         });
     }
 
-    const secret: V1Secret = {
+    const secret: k8s.V1Secret = {
       metadata: {
         name: 'peribolos-' + context.payload.installation.id,
         labels: {
@@ -41,7 +40,7 @@ export default (appBase: Probot) => {
         orgName: orgName,
       },
     };
-    await app.kube.core.createNamespacedSecret(app.kube.namespace, secret);
+    await kube.core.createNamespacedSecret(kube.namespace, secret);
 
     // Create task run
     const payload = {
@@ -65,10 +64,10 @@ export default (appBase: Probot) => {
 
     // No need to check for token expiration since it was just created
     try {
-      await app.kube.custom.createNamespacedCustomObject(
+      await kube.custom.createNamespacedCustomObject(
         'tekton.dev',
         'v1beta1',
-        app.kube.namespace,
+        kube.namespace,
         'taskruns',
         payload
       );
@@ -98,7 +97,7 @@ export default (appBase: Probot) => {
     }
 
     if (context.payload.installation?.id) {
-      await app.updateToken(context.payload.installation.id);
+      await updateToken(context.payload.installation.id, app.log);
     }
 
     const payload = {
@@ -121,10 +120,10 @@ export default (appBase: Probot) => {
       },
     };
     try {
-      await app.kube.custom.createNamespacedCustomObject(
+      await kube.custom.createNamespacedCustomObject(
         'tekton.dev',
         'v1beta1',
-        app.kube.namespace,
+        kube.namespace,
         'taskruns',
         payload
       );
@@ -136,6 +135,6 @@ export default (appBase: Probot) => {
   // Respond to the GitHub app installation deleted
   app.on('installation.deleted', async (context) => {
     const name = 'peribolos-' + context.payload.installation.id;
-    await app.kube.core.deleteNamespacedSecret(name, app.kube.namespace);
+    await kube.core.deleteNamespacedSecret(name, kube.namespace);
   });
 };
