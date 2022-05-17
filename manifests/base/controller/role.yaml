@@ -19,3 +19,5 @@ rules:
   - list
   - create
   - update
+  - patch
+  - delete
