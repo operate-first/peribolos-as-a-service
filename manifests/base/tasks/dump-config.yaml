@@ -5,11 +5,11 @@ metadata:
   name: dump-config
 spec:
   params:
-  - name: REPO_NAME
-    type: string
-    default: .github
-  - name: INSTALLATION_ID
-    type: string
+    - name: REPO_NAME
+      type: string
+      default: .github
+    - name: INSTALLATION_ID
+      type: string
   steps:
     - name: dump-config
       image: peribolos
@@ -47,7 +47,7 @@ spec:
         - name: APP_ID
           valueFrom:
             secretKeyRef:
-              name: peribolos-as-service
+              name: peribolos-controller
               key: app_id
       script: |
         #!/bin/bash
@@ -92,16 +92,16 @@ spec:
         - mountPath: /mnt/shared
           name: shared-data
       env:
-      - name: GITHUB_TOKEN
-        valueFrom:
-          secretKeyRef:
-            name: peribolos-$(params.INSTALLATION_ID)
-            key: token
-      - name: ORG_NAME
-        valueFrom:
-          secretKeyRef:
-            name: peribolos-$(params.INSTALLATION_ID)
-            key: orgName
+        - name: GITHUB_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: peribolos-$(params.INSTALLATION_ID)
+              key: token
+        - name: ORG_NAME
+          valueFrom:
+            secretKeyRef:
+              name: peribolos-$(params.INSTALLATION_ID)
+              key: orgName
       script: |
         #!/usr/libexec/platform-python
 
@@ -156,8 +156,8 @@ spec:
       name: shared-data
     - name: github-token
       secret:
-          secretName: peribolos-$(params.INSTALLATION_ID)
-          items:
-            - key: token
-              path: token
-          optional: false
+        secretName: peribolos-$(params.INSTALLATION_ID)
+        items:
+          - key: token
+            path: token
+        optional: false
