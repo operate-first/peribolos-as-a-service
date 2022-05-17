@@ -7,9 +7,9 @@ WORKDIR /peribolos
 RUN curl -L https://github.com/kubernetes/test-infra/tarball/$COMMIT | tar -xz --strip-components=1
 COPY peribolos.patch prow/cmd/peribolos
 RUN cd prow/cmd/peribolos && \
-patch -f -u main.go -i peribolos.patch && \
-CGO_ENABLED=0 go build -o /usr/bin/peribolos
+    patch -f -u main.go -i peribolos.patch && \
+    CGO_ENABLED=0 go build -o /usr/bin/peribolos
 
-FROM registry.access.redhat.com/ubi8-micro
+FROM registry.access.redhat.com/ubi8/ubi-minimal
 
 COPY --from=builder /usr/bin/peribolos /usr/bin/peribolos
