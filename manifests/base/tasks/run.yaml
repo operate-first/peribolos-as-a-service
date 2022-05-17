@@ -5,20 +5,18 @@ metadata:
   name: run
 spec:
   params:
-  - name: REPO_NAME
-    type: string
-    default: '.github'
-  - name: INSTALLATION_ID
-    type: string
+    - name: REPO_NAME
+      type: string
+      default: ".github"
+    - name: INSTALLATION_ID
+      type: string
   steps:
     - name: apply-peribolos
       image: toolbox
+      volumeMounts:
+        - mountPath: /mnt/secret
+          name: github-token
       env:
-        - name: GITHUB_TOKEN
-          valueFrom:
-            secretKeyRef:
-              name: peribolos-$(params.INSTALLATION_ID)
-              key: token
         - name: ORG_NAME
           valueFrom:
             secretKeyRef:
@@ -32,9 +30,14 @@ spec:
         git clone https://github.com/$ORG_NAME/$(params.REPO_NAME)
         cd $(params.REPO_NAME)
 
-        # Save token to file
-        echo $GITHUB_TOKEN > token
-
         # Run Peribolos on the repository
         echo "Running peribolos..."
-        peribolos --config-path peribolos.yaml --github-token-path token --fix-org --fix-repos --fix-team-members --fix-teams --fix-team-repos --confirm
+        peribolos --config-path peribolos.yaml --github-token-path /mnt/secret/token --fix-org --fix-repos --fix-team-members --fix-teams --fix-team-repos --confirm
+  volumes:
+    - name: github-token
+      secret:
+        secretName: peribolos-$(params.INSTALLATION_ID)
+        items:
+          - key: token
+            path: token
+        optional: false

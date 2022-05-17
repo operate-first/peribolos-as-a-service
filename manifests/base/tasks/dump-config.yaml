@@ -81,6 +81,7 @@ spec:
         git checkout -b $BRANCH_NAME
 
         cp /mnt/shared/peribolos.yaml .
+        yq e -i '{ "orgs": {"tumido-test": .}}' peribolos.yaml
 
         echo "Commiting config to $BRANCH_NAME branch ..."
         git add peribolos.yaml
