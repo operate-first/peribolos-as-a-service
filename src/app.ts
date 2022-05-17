@@ -1,11 +1,24 @@
 import { Probot } from 'probot';
 import { updateToken, kube } from './probotOnKube';
+import {
+  numberOfInstallTotal,
+  numberOfUninstallTotal,
+  numberOfActionsTotal,
+  operationsTriggered,
+} from './metrics';
 import * as k8s from '@kubernetes/client-node';
 import { InstallationAccessTokenAuthentication } from '@octokit/auth-app';
 
 export default (app: Probot) => {
   // Respond to the GitHub app installation
-  app.on('installation.created', async (context) => {
+  app.on('installation.created', async (context: any) => {
+    numberOfInstallTotal.labels({}).inc();
+    numberOfActionsTotal
+      .labels({
+        install: context.payload.installation.id,
+        action: context.payload.action,
+      })
+      .inc();
     // Get the installation token  and expiry time from the installation
     const appAuth = (await context.octokit.auth({
       type: 'installation',
@@ -14,13 +27,13 @@ export default (app: Probot) => {
     const orgName = context.payload.installation.account.login;
 
     // Iterate over the list of repositories for .github repo
-    const repo_exist = Boolean(repos?.find((r) => r.name === '.github'));
+    const repo_exist = Boolean(repos?.find((r: any) => r.name === '.github'));
 
     if (!repo_exist) {
       app.log.info("Creating '.github' repository.");
       context.octokit.repos
         .createInOrg({ org: orgName, name: '.github' })
-        .catch((err) => {
+        .catch((err: any) => {
           app.log.warn(err, 'Error creating repository');
         });
     }
@@ -40,8 +53,29 @@ export default (app: Probot) => {
         orgName: orgName,
       },
     };
-    await kube.core.createNamespacedSecret(kube.namespace, secret);
-
+    await kube.core
+      .createNamespacedSecret(kube.namespace, secret)
+      .then(() => {
+        operationsTriggered
+          .labels({
+            install: context.payload.installation.id,
+            operation: 'k8s',
+            status: 'Succeeded',
+            method: 'createSecret',
+          })
+          .inc();
+      })
+      .catch((e: unknown) => {
+        app.log.warn(e as object, 'Failed to create secret for app install.');
+        operationsTriggered
+          .labels({
+            install: context.payload.installation.id,
+            operation: 'k8s',
+            status: 'Failed',
+            method: 'createSecret',
+          })
+          .inc();
+      });
     // Create task run
     const payload = {
       apiVersion: 'tekton.dev/v1beta1',
@@ -63,25 +97,52 @@ export default (app: Probot) => {
     };
 
     // No need to check for token expiration since it was just created
-    try {
-      await kube.custom.createNamespacedCustomObject(
+    await kube.custom
+      .createNamespacedCustomObject(
         'tekton.dev',
         'v1beta1',
         kube.namespace,
         'taskruns',
         payload
-      );
-    } catch (e: unknown) {
-      app.log.error(e as object, 'Failed to schedule peribolos dump task run');
-    }
+      )
+      .then(() => {
+        operationsTriggered
+          .labels({
+            install: context.payload.installation.id,
+            operation: 'k8s',
+            status: 'Succeeded',
+            method: 'scheduleDumpConfig',
+          })
+          .inc();
+      })
+      .catch((e: unknown) => {
+        app.log.error(
+          e as object,
+          'Failed to schedule peribolos dump task run'
+        );
+        operationsTriggered
+          .labels({
+            install: context.payload.installation.id,
+            operation: 'k8s',
+            status: 'Failed',
+            method: 'scheduleDumpConfig',
+          })
+          .inc();
+      });
   });
 
   //handle push event
-  app.on('push', async (context) => {
+  app.on('push', async (context: any) => {
+    numberOfActionsTotal
+      .labels({
+        install: context.payload.installation.id,
+        action: context.payload.action,
+      })
+      .inc();
     const configExists = Boolean(
       context.payload.commits
         ?.reduce(
-          (acc, commit) => [
+          (acc: any, commit: any) => [
             ...acc,
             ...commit.added,
             ...commit.modified,
@@ -119,22 +180,69 @@ export default (app: Probot) => {
         ],
       },
     };
-    try {
-      await kube.custom.createNamespacedCustomObject(
+    await kube.custom
+      .createNamespacedCustomObject(
         'tekton.dev',
         'v1beta1',
         kube.namespace,
         'taskruns',
         payload
-      );
-    } catch (e: unknown) {
-      app.log.error(e as object, 'Failed to schedule peribolos run');
-    }
+      )
+      .then(() => {
+        operationsTriggered
+          .labels({
+            install: context.payload.installation.id,
+            operation: 'k8s',
+            status: 'Succeeded',
+            method: 'schedulePushTask',
+          })
+          .inc();
+      })
+      .catch((e: unknown) => {
+        app.log.error(e as object, 'Failed to schedule peribolos run');
+        operationsTriggered
+          .labels({
+            install: context.payload.installation.id,
+            operation: 'k8s',
+            status: 'Failed',
+            method: 'schedulePushTask',
+          })
+          .inc();
+      });
   });
 
   // Respond to the GitHub app installation deleted
-  app.on('installation.deleted', async (context) => {
+  app.on('installation.deleted', async (context: any) => {
+    numberOfUninstallTotal.labels({}).inc();
+    numberOfActionsTotal
+      .labels({
+        install: context.payload.installation.id,
+        action: context.payload.action,
+      })
+      .inc();
     const name = 'peribolos-' + context.payload.installation.id;
-    await kube.core.deleteNamespacedSecret(name, kube.namespace);
+    await kube.core
+      .deleteNamespacedSecret(name, kube.namespace)
+      .then(() => {
+        operationsTriggered
+          .labels({
+            install: context.payload.installation.id,
+            operation: 'k8s',
+            status: 'Succeeded',
+            method: 'deleteSecret',
+          })
+          .inc();
+      })
+      .catch((e: unknown) => {
+        app.log.error(e as object, 'Failed to delete secret on app uninstall.');
+        operationsTriggered
+          .labels({
+            install: context.payload.installation.id,
+            operation: 'k8s',
+            status: 'Failed',
+            method: 'deleteSecret',
+          })
+          .inc();
+      });
   });
 };
