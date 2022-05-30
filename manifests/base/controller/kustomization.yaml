@@ -9,6 +9,7 @@ resources:
 - secret.yaml
 - serviceaccount.yaml
 - service.yaml
+- servicemonitor.yaml
 namePrefix: peribolos-
 configurations:
 - .transformers.yaml
