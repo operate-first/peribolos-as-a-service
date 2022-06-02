@@ -12,9 +12,9 @@
     "lint": "prettier --check 'src/**/*.{ts,js}'; eslint src --ext .ts,.js"
   },
   "dependencies": {
-    "@kubernetes/client-node": "0.16.3",
-    "probot": "12.2.3",
-    "prom-client": "14.0.1"
+    "@open-services-group/probot-kubernetes": "1.0.1",
+    "@open-services-group/probot-metrics": "1.0.1",
+    "probot": "12.2.3"
   },
   "devDependencies": {
     "@semantic-release/changelog": "6.0.1",
