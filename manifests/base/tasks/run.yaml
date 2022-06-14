@@ -8,7 +8,7 @@ spec:
     - name: REPO_NAME
       type: string
       default: ".github"
-    - name: INSTALLATION_ID
+    - name: SECRET_NAME
       type: string
   steps:
     - name: apply-peribolos
@@ -20,7 +20,7 @@ spec:
         - name: ORG_NAME
           valueFrom:
             secretKeyRef:
-              name: peribolos-$(params.INSTALLATION_ID)
+              name: $(params.SECRET_NAME)
               key: orgName
       script: |
         #!/usr/bin/bash
@@ -36,7 +36,7 @@ spec:
   volumes:
     - name: github-token
       secret:
-        secretName: peribolos-$(params.INSTALLATION_ID)
+        secretName: $(params.SECRET_NAME)
         items:
           - key: token
             path: token
