@@ -1,5 +1,7 @@
 <p align="center">
-  <a href="https://github.com/apps/peribolos"><img src="https://github.com/open-services-group/peribolos-as-a-service/blob/main/static/robot.svg" width="160" alt="Probot's logo, a cartoon robot" /></a>
+  <a href="https://github.com/apps/peribolos">
+    <img src="https://raw.githubusercontent.com/open-services-group/peribolos-as-a-service/main/static/robot.svg" width="160" alt="Probot's logo, a cartoon robot" />
+  </a>
 </p>
 <h3 align="center"><a href="https://github.com/apps/peribolos">Peribolos</a></h3>
 <p align="center">GitHub organization management as code</p>
@@ -8,19 +10,19 @@
     <img alt="GitHub tag (latest by date)" src="https://img.shields.io/github/v/tag/open-services-group/peribolos-as-a-service">
   </a>
   <a href="https://github.com/open-services-group/peribolos-as-a-service/actions?query=workflow%3APush">
-    <img src="https://img.shields.io/github/workflow/status/open-services-group/peribolos-as-a-service/Push" alt="Build Status">
+    <img alt="Build Status" src="https://img.shields.io/github/workflow/status/open-services-group/peribolos-as-a-service/Push">
   </a>
   <a href="https://github.com/open-services-group/peribolos-as-a-service">
     <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/open-services-group/peribolos-as-a-service">
   </a>
   <a href="https://github.com/open-services-group/peribolos-as-a-service/blob/main/LICENSE">
-    <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="license">
+    <img alt="License" src="https://img.shields.io/badge/license-MIT-blue.svg">
   </a>
   <a href="https://github.com/open-services-group/peribolos-as-a-service/issues?q=is%3Aissue+is%3Aopen+label%3Akind%2Fbug">
     <img alt="Reported bugs" src="https://img.shields.io/github/issues-search/open-services-group/peribolos-as-a-service?color=red&label=reported%20bugs&query=is%3Aopen%20label%3Akind%2Fbug">
   </a>
   <a href="https://github.com/open-services-group/peribolos-as-a-service/issues?q=is%3Aissue+is%3Aopen+label%3Akind%2Fbug">
-  <img alt="Feature requests" src="https://img.shields.io/github/issues-search/open-services-group/peribolos-as-a-service?label=feature%20requests&query=is%3Aopen%20label%3Akind%2Ffeature">
+    <img alt="Feature requests" src="https://img.shields.io/github/issues-search/open-services-group/peribolos-as-a-service?label=feature%20requests&query=is%3Aopen%20label%3Akind%2Ffeature">
   </a>
 </p>
 
@@ -49,8 +51,24 @@ See [`CONTRIBUTING.md`](CONTRIBUTING.md) on how to contribute.
 
 ---
 
-### Credit
+## Credit
 
-1. [Peribolos tool][peribolos] is created and maintained by the Kubernetes community
-2. This app is implemented via [Probot tooling][probot]
-3. Credit for logo goes to [Probot project][probot], we've just modified their original artwork
+See [`ACKNOWLEDGMENTS.md`](ACKNOWLEDGMENTS.md).
+
+<p align="center">
+  <a href="https://argocd.operate-first.cloud/applications/peribolos-as-a-service-smaug">
+    <img alt="ArgoCD status" src="https://argocd.operate-first.cloud/api/badge?name=peribolos-as-a-service-smaug&revision=true">
+  </a><br />
+  <a href="https://console-openshift-console.apps.smaug.na.operate-first.cloud/k8s/cluster/projects/peribolos-as-a-service">
+    <img alt="OpenShift namespace" src="https://img.shields.io/badge/OpenShift-peribolos--as--a--service-white?logo=redhatopenshift&logoColor=white&labelColor=ee0000">
+  </a>
+  <a href="https://peribolos.operate-first.cloud">
+    <img alt="Route status" src="https://img.shields.io/website?label=Availability&url=https%3A%2F%2Fperibolos.operate-first.cloud%2Fhealthz">
+  </a><br />
+  <a href="https://quay.io/repository/open-services-group/peribolos-as-a-service?tab=tags">
+    <img alt="Controller image" src="https://img.shields.io/badge/Quay-open--services--group%2Fperibolos--as--a--service-blue">
+  </a><br />
+  <a href="https://quay.io/repository/open-services-group/peribolos?tab=tags">
+    <img alt="Peribolos image" src="https://img.shields.io/badge/Quay-open--services--group%2Fperibolos-blue">
+  </a>
+</p>
