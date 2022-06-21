@@ -1,3 +1,16 @@
+## [1.0.1](https://github.com/open-services-group/peribolos-as-a-service/compare/v1.0.0...v1.0.1) (2022-06-21)
+
+
+### Bug Fixes
+
+* **controller:** Role to allow secret deletion ([6974335](https://github.com/open-services-group/peribolos-as-a-service/commit/6974335360b77f5a1ea93194cc4809d1fa7d074c))
+* **deps:** pin dependency prom-client to 14.0.1 ([14e519e](https://github.com/open-services-group/peribolos-as-a-service/commit/14e519e8ba0630221d89a4cc7475efed77ee3fcd))
+* Manifests nameprefix not propagated to route's service selector ([17b9ff3](https://github.com/open-services-group/peribolos-as-a-service/commit/17b9ff363d3ead2e2de1e9d5294c1e1d2f15b7df))
+* **peribolos:** Swap base image so we get SSL ([76bc073](https://github.com/open-services-group/peribolos-as-a-service/commit/76bc07325d2f7864936f07782de022157fa4b037))
+* Probot on kube doesn't work in prod builds ([e25ce57](https://github.com/open-services-group/peribolos-as-a-service/commit/e25ce5708cbe284293c9861651f9e20fe733280a))
+* **tasks:** Dump config controller secret reference ([2bf061a](https://github.com/open-services-group/peribolos-as-a-service/commit/2bf061a8870d77c61a9d5dcf31fe6403ca37d3e3))
+* **tasks:** Proper config propagation ([9a222b6](https://github.com/open-services-group/peribolos-as-a-service/commit/9a222b6e86ffdeb22f984ed7c209448e835a9faa))
+
 # 1.0.0 (2022-05-05)
 
 
