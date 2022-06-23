@@ -10,6 +10,8 @@ spec:
       default: ".github"
     - name: SECRET_NAME
       type: string
+    - name: CHECK_RUN_ID
+      type: string
   steps:
     - name: apply-peribolos
       image: toolbox
@@ -22,8 +24,20 @@ spec:
             secretKeyRef:
               name: $(params.SECRET_NAME)
               key: orgName
+        - name: GITHUB_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: $(params.SECRET_NAME)
+              key: token
       script: |
         #!/usr/bin/bash
+
+        echo "Updating check run to in-progress..."
+        curl -X PATCH \
+          -H "Accept: application/vnd.github.v3+json" \
+          -H "Authorization: Bearer $GITHUB_TOKEN" \
+          https://api.github.com/repos/$ORG_NAME/.github/check-runs/$(params.CHECK_RUN_ID) \
+          -d '{"status":"in_progress"}'
 
         echo "Cloning repository..."
         # Clone repository
@@ -31,8 +45,22 @@ spec:
         cd $(params.REPO_NAME)
 
         # Run Peribolos on the repository
-        echo "Running peribolos..."
+        echo "Running peribolos on commit $(git rev-parse --short HEAD)..."
         peribolos --config-path peribolos.yaml --github-token-path /mnt/secret/token --fix-org --fix-repos --fix-team-members --fix-teams --fix-team-repos --confirm
+
+        if [ $? -eq 0 ]; then
+          CONCLUSION="success"
+        else
+          CONCLUSION="failure"
+        fi
+
+        echo "Updating check run to completed with $CONCLUSION..."
+        curl -X PATCH \
+          -H "Accept: application/vnd.github.v3+json" \
+          -H "Authorization: Bearer $GITHUB_TOKEN" \
+          https://api.github.com/repos/$ORG_NAME/.github/check-runs/$(params.CHECK_RUN_ID) \
+          -d "{\"status\":\"completed\",\"conclusion\":\"$CONCLUSION\"}"
+
   volumes:
     - name: github-token
       secret:
