@@ -41,7 +41,7 @@ spec:
 
         echo "Cloning repository..."
         # Clone repository
-        git clone https://github.com/$ORG_NAME/$(params.REPO_NAME)
+        git clone https://x-access-token:$GITHUB_TOKEN@github.com/$ORG_NAME/$(params.REPO_NAME)
         cd $(params.REPO_NAME)
 
         # Run Peribolos on the repository
