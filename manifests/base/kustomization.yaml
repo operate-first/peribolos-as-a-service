@@ -9,8 +9,6 @@ commonLabels:
   app.kubernetes.io/name: peribolos-as-service
   app.kubernetes.io/managed-by: sig-services
 images:
-- name: peribolos
-  newName: quay.io/operate-first/peribolos
 - name: toolbox
   newName: quay.io/operate-first/opf-toolbox
 - name: python

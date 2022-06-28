@@ -12,27 +12,34 @@ spec:
       type: string
   steps:
     - name: dump-config
-      image: peribolos
+      image: toolbox
       volumeMounts:
         - mountPath: /mnt/shared
           name: shared-data
         - mountPath: /mnt/secret
-          name: github-token
+          name: private-key
       env:
         - name: ORG_NAME
           valueFrom:
             secretKeyRef:
               name: $(params.SECRET_NAME)
               key: orgName
+        - name: APP_ID
+          valueFrom:
+            secretKeyRef:
+              name: peribolos-controller
+              key: app_id
       script: |
         #!/bin/sh
 
-        peribolos --dump $ORG_NAME --github-token-path /mnt/secret/token > /mnt/shared/peribolos.yaml
+        peribolos --dump $ORG_NAME --github-app-id $APP_ID --github-app-private-key-path /mnt/secret/private_key --confirm > /mnt/shared/peribolos.yaml
     - name: push-config
       image: toolbox
       volumeMounts:
         - mountPath: /mnt/shared
           name: shared-data
+        - mountPath: /mnt/secret
+          name: private-key
       env:
         - name: GITHUB_TOKEN
           valueFrom:
@@ -70,20 +77,23 @@ spec:
 
         # Check if repo has no commits
         if [ $( git ls-remote --heads $REPO_REMOTE | wc -l ) -eq "0" ]; then
-          echo "Repository empty, creating empty commit"
+          echo "Repository empty, creating empty commit..."
           git init -b $DEFAULT_BRANCH
           git remote add origin $REPO_REMOTE
           git commit --allow-empty -m "Initial commit"
           git push --all origin
         else
+          echo "Repository not empty, cloning..."
           git clone $REPO_REMOTE .
         fi
         git checkout -b $BRANCH_NAME
 
+        echo "Getting peribolos config file..."
         cp /mnt/shared/peribolos.yaml .
+
         yq e -i '{ "orgs": {"'$ORG_NAME'": .}}' peribolos.yaml
 
-        echo "Commiting config to $BRANCH_NAME branch ..."
+        echo "Commiting config to $BRANCH_NAME branch..."
         git add peribolos.yaml
         git commit -m "Add initial yaml config"
         git push origin $BRANCH_NAME
@@ -152,13 +162,14 @@ spec:
 
             print(f"GitHub pull request created for {repo_full_path}: "
                   f'number={body["number"]} url={body["html_url"]}')
+
   volumes:
     - emptyDir: {}
       name: shared-data
-    - name: github-token
+    - name: private-key
       secret:
-        secretName: $(params.SECRET_NAME)
+        secretName: peribolos-controller
         items:
-          - key: token
-            path: token
+          - key: private_key
+            path: private_key
         optional: false
