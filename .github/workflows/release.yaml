@@ -201,14 +201,14 @@ jobs:
         with:
           image: peribolos-as-a-service
           tags: ${{ github.sha }} ${{ needs.release-to-git.outputs.tag }}
-          registry: quay.io/open-services-group
+          registry: quay.io/operate-first
           username: ${{ secrets.QUAY_USERNAME }}
           password: ${{ secrets.QUAY_PASSWORD }}
 
       - name: Set expiration
         uses: ./.github/actions/set-expiration
         with:
-          repository: open-services-group/peribolos-as-a-service
+          repository: operate-first/peribolos-as-a-service
           tag: ${{ github.sha }}
           expiration: +1 week
           token: ${{ secrets.QUAY_OAUTH_TOKEN }}
@@ -248,14 +248,14 @@ jobs:
         with:
           image: peribolos
           tags: ${{ github.sha }} ${{ needs.release-to-git.outputs.tag }}
-          registry: quay.io/open-services-group
+          registry: quay.io/operate-first
           username: ${{ secrets.QUAY_USERNAME }}
           password: ${{ secrets.QUAY_PASSWORD }}
 
       - name: Set expiration
         uses: ./.github/actions/set-expiration
         with:
-          repository: open-services-group/peribolos
+          repository: operate-first/peribolos
           tag: ${{ github.sha }}
           expiration: +1 week
           token: ${{ secrets.QUAY_OAUTH_TOKEN }}

@@ -1,7 +1,7 @@
 ## Contributing
 
-[fork]: https://github.com/open-services-group/peribolos-as-a-service/fork
-[pr]: https://github.com/open-services-group/peribolos-as-a-service/compare
+[fork]: https://github.com/operate-first/peribolos-as-a-service/fork
+[pr]: https://github.com/operate-first/peribolos-as-a-service/compare
 [code-of-conduct]: CODE_OF_CONDUCT.md
 [upstream]: https://github.com/kubernetes/test-infra/tree/master/prow/cmd/peribolos
 
@@ -17,7 +17,7 @@ We'd love you to open issues, if they're relevant to this repository: feature re
 
 In particular, if you have a large PR you want to send our way, it may make sense to open an issue to discuss it with the maintainers first.
 
-We also use the label 'help wanted' to show issues we want help on! If you'd like to get started working in this repository, it'd be best to jump into those issues. View those issues [here](https://github.com/open-services-group/peribolos-as-a-service/help%20wanted)!
+We also use the label 'help wanted' to show issues we want help on! If you'd like to get started working in this repository, it'd be best to jump into those issues. View those issues [here](https://github.com/operate-first/peribolos-as-a-service/help%20wanted)!
 
 ## Submitting a pull request
 
@@ -128,7 +128,7 @@ There are two ways to do this:
 
     ```sh
     pushd manifests/overlays/dev
-    kustomize edit set image quay.io/open-services-group/peribolos-as-a-service=<quay repo>
+    kustomize edit set image quay.io/operate-first/peribolos-as-a-service=<quay repo>
     popd
 
     kustomize build manifests/overlays/dev | kubectl apply -f -

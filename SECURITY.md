@@ -11,4 +11,4 @@ currently being supported with security updates.
 
 ## Reporting a Vulnerability
 
-Please open a [new issue](https://github.com/open-services-group/peribolos-as-a-service/issues/new) and use the `Report vulnerability` template in this repository. Issues opened using this template takes precedence over any other work and it will be handled promptly.
+Please open a [new issue](https://github.com/operate-first/peribolos-as-a-service/issues/new) and use the `Report vulnerability` template in this repository. Issues opened using this template takes precedence over any other work and it will be handled promptly.

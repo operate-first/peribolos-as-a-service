@@ -11,7 +11,7 @@ namespace: peribolos-as-a-service
 patchesStrategicMerge:
   - route.yaml
 images:
-  - name: quay.io/open-services-group/peribolos-as-a-service
+  - name: quay.io/operate-first/peribolos-as-a-service
     newTag: v1.0.0
-  - name: quay.io/open-services-group/peribolos
+  - name: quay.io/operate-first/peribolos
     newTag: v1.0.0

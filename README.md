@@ -1,28 +1,28 @@
 <p align="center">
   <a href="https://github.com/apps/peribolos">
-    <img src="https://raw.githubusercontent.com/open-services-group/peribolos-as-a-service/main/static/robot.svg" width="160" alt="Probot's logo, a cartoon robot" />
+    <img src="https://raw.githubusercontent.com/operate-first/peribolos-as-a-service/main/static/robot.svg" width="160" alt="Probot's logo, a cartoon robot" />
   </a>
 </p>
 <h3 align="center"><a href="https://github.com/apps/peribolos">Peribolos</a></h3>
 <p align="center">GitHub organization management as code</p>
 <p align="center">
-  <a href="https://github.com/open-services-group/peribolos-as-a-service/releases">
-    <img alt="GitHub tag (latest by date)" src="https://img.shields.io/github/v/tag/open-services-group/peribolos-as-a-service">
+  <a href="https://github.com/operate-first/peribolos-as-a-service/releases">
+    <img alt="GitHub tag (latest by date)" src="https://img.shields.io/github/v/tag/operate-first/peribolos-as-a-service">
   </a>
-  <a href="https://github.com/open-services-group/peribolos-as-a-service/actions?query=workflow%3APush">
-    <img alt="Build Status" src="https://img.shields.io/github/workflow/status/open-services-group/peribolos-as-a-service/Push">
+  <a href="https://github.com/operate-first/peribolos-as-a-service/actions?query=workflow%3APush">
+    <img alt="Build Status" src="https://img.shields.io/github/workflow/status/operate-first/peribolos-as-a-service/Push">
   </a>
-  <a href="https://github.com/open-services-group/peribolos-as-a-service">
-    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/open-services-group/peribolos-as-a-service">
+  <a href="https://github.com/operate-first/peribolos-as-a-service">
+    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/operate-first/peribolos-as-a-service">
   </a>
-  <a href="https://github.com/open-services-group/peribolos-as-a-service/blob/main/LICENSE">
+  <a href="https://github.com/operate-first/peribolos-as-a-service/blob/main/LICENSE">
     <img alt="License" src="https://img.shields.io/badge/license-MIT-blue.svg">
   </a>
-  <a href="https://github.com/open-services-group/peribolos-as-a-service/issues?q=is%3Aissue+is%3Aopen+label%3Akind%2Fbug">
-    <img alt="Reported bugs" src="https://img.shields.io/github/issues-search/open-services-group/peribolos-as-a-service?color=red&label=reported%20bugs&query=is%3Aopen%20label%3Akind%2Fbug">
+  <a href="https://github.com/operate-first/peribolos-as-a-service/issues?q=is%3Aissue+is%3Aopen+label%3Akind%2Fbug">
+    <img alt="Reported bugs" src="https://img.shields.io/github/issues-search/operate-first/peribolos-as-a-service?color=red&label=reported%20bugs&query=is%3Aopen%20label%3Akind%2Fbug">
   </a>
-  <a href="https://github.com/open-services-group/peribolos-as-a-service/issues?q=is%3Aissue+is%3Aopen+label%3Akind%2Fbug">
-    <img alt="Feature requests" src="https://img.shields.io/github/issues-search/open-services-group/peribolos-as-a-service?label=feature%20requests&query=is%3Aopen%20label%3Akind%2Ffeature">
+  <a href="https://github.com/operate-first/peribolos-as-a-service/issues?q=is%3Aissue+is%3Aopen+label%3Akind%2Fbug">
+    <img alt="Feature requests" src="https://img.shields.io/github/issues-search/operate-first/peribolos-as-a-service?label=feature%20requests&query=is%3Aopen%20label%3Akind%2Ffeature">
   </a>
 </p>
 
@@ -65,10 +65,10 @@ See [`ACKNOWLEDGMENTS.md`](ACKNOWLEDGMENTS.md).
   <a href="https://peribolos.operate-first.cloud">
     <img alt="Route status" src="https://img.shields.io/website?label=Availability&url=https%3A%2F%2Fperibolos.operate-first.cloud%2Fhealthz">
   </a><br />
-  <a href="https://quay.io/repository/open-services-group/peribolos-as-a-service?tab=tags">
-    <img alt="Controller image" src="https://img.shields.io/badge/Quay-open--services--group%2Fperibolos--as--a--service-blue">
+  <a href="https://quay.io/repository/operate-first/peribolos-as-a-service?tab=tags">
+    <img alt="Controller image" src="https://img.shields.io/badge/Quay-operate--first%2Fperibolos--as--a--service-blue">
   </a><br />
-  <a href="https://quay.io/repository/open-services-group/peribolos?tab=tags">
-    <img alt="Peribolos image" src="https://img.shields.io/badge/Quay-open--services--group%2Fperibolos-blue">
+  <a href="https://quay.io/repository/operate-first/peribolos?tab=tags">
+    <img alt="Peribolos image" src="https://img.shields.io/badge/Quay-operate--first%2Fperibolos-blue">
   </a>
 </p>

@@ -2,7 +2,7 @@
   "name": "peribolos-as-a-service",
   "version": "1.0.1",
   "private": true,
-  "homepage": "https://github.com/open-services-group/peribolos-as-a-service",
+  "homepage": "https://github.com/operate-first/peribolos-as-a-service",
   "scripts": {
     "build": "tsc",
     "start": "node lib/index.js",
@@ -12,8 +12,8 @@
     "lint": "prettier --check 'src/**/*.{ts,js}'; eslint src --ext .ts,.js"
   },
   "dependencies": {
-    "@open-services-group/probot-kubernetes": "1.0.1",
-    "@open-services-group/probot-metrics": "1.0.1",
+    "@operate-first/probot-kubernetes": "1.0.0",
+    "@operate-first/probot-metrics": "1.0.0",
     "probot": "12.2.4"
   },
   "devDependencies": {
