@@ -10,7 +10,7 @@ Please read through the following guidelines.
 
 ## Asking quality questions
 
-Questions, bug reports and feature requests can go to [GitHub issues](https://github.com/open-services-group/peribolos-as-a-service/issues/new).
+Questions, bug reports and feature requests can go to [GitHub issues](https://github.com/operate-first/peribolos-as-a-service/issues/new).
 
 Help us help you! Spend time framing questions and add links and resources. Spending the extra time up front can help save everyone time in the long run. Here are some tips:
 

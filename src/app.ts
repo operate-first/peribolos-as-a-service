@@ -1,6 +1,6 @@
 import { Probot } from 'probot';
 import { Router } from 'express';
-import { exposeMetrics, useCounter } from '@open-services-group/probot-metrics';
+import { exposeMetrics, useCounter } from '@operate-first/probot-metrics';
 import {
   APIS,
   createTokenSecret,
@@ -9,7 +9,7 @@ import {
   getTokenSecretName,
   updateTokenSecret,
   useApi,
-} from '@open-services-group/probot-kubernetes';
+} from '@operate-first/probot-kubernetes';
 
 const generateTaskPayload = (name: string, context: any) => ({
   apiVersion: 'tekton.dev/v1beta1',
