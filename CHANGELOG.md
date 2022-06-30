@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/operate-first/peribolos-as-a-service/compare/v1.0.1...v1.1.0) (2022-06-30)
+
+
+### Features
+
+* Relocate Probot repositories to Operate First ([48d3a82](https://github.com/operate-first/peribolos-as-a-service/commit/48d3a82b800bce52c4703c6bf65053c1edc4f794))
+
 ## [1.0.1](https://github.com/open-services-group/peribolos-as-a-service/compare/v1.0.0...v1.0.1) (2022-06-21)
 
 
