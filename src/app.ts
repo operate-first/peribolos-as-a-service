@@ -11,25 +11,6 @@ import {
   useApi,
 } from '@operate-first/probot-kubernetes';
 
-const generateTaskPayload = (name: string, context: any) => ({
-  apiVersion: 'tekton.dev/v1beta1',
-  kind: 'TaskRun',
-  metadata: {
-    generateName: name + '-',
-  },
-  spec: {
-    taskRef: {
-      name,
-    },
-    params: [
-      {
-        name: 'SECRET_NAME',
-        value: getTokenSecretName(context),
-      },
-    ],
-  },
-});
-
 export default (
   app: Probot,
   {
@@ -86,6 +67,47 @@ export default (
       .inc();
   };
 
+  const createTaskRun = (
+    name: string,
+    context: any,
+    extraParams: Array<Record<string, unknown>> = []
+  ) => {
+    const params = [
+      {
+        name: 'SECRET_NAME',
+        value: getTokenSecretName(context),
+      },
+      ...extraParams,
+    ];
+    const taskRunpayload = {
+      apiVersion: 'tekton.dev/v1beta1',
+      kind: 'TaskRun',
+      metadata: {
+        generateName: name + '-',
+      },
+      spec: {
+        taskRef: {
+          name,
+        },
+        params: params,
+      },
+    };
+
+    wrapOperationWithMetrics(
+      useApi(APIS.CustomObjectsApi).createNamespacedCustomObject(
+        'tekton.dev',
+        'v1beta1',
+        getNamespace(),
+        'taskruns',
+        taskRunpayload
+      ),
+      {
+        install: context.payload.installation.id,
+        method: name,
+      }
+    );
+  };
+
   app.onAny((context: any) => {
     // On any event inc() the counter
     numberOfActionsTotal
@@ -124,19 +146,7 @@ export default (
     });
 
     // Trigger dump-config taskrun
-    wrapOperationWithMetrics(
-      useApi(APIS.CustomObjectsApi).createNamespacedCustomObject(
-        'tekton.dev',
-        'v1beta1',
-        getNamespace(),
-        'taskruns',
-        generateTaskPayload('peribolos-dump-config', context)
-      ),
-      {
-        install: context.payload.installation.id,
-        method: 'scheduleDumpConfig',
-      }
-    );
+    createTaskRun('peribolos-dump-config', context);
   });
 
   app.on('push', async (context: any) => {
@@ -165,20 +175,65 @@ export default (
       method: 'updateSecret',
     });
 
+    // I think for now we can use the taskName Prefix and edit it when we
+    // are adding additional information to the check
+    const checkResponse = await context.octokit.checks.create({
+      owner: context.payload.organization.login,
+      repo: '.github',
+      name: 'peribolos-run',
+      head_sha: context.payload.after,
+      status: 'queued',
+    });
+
     // Trigger taskrun to apply config changes to org
-    wrapOperationWithMetrics(
-      useApi(APIS.CustomObjectsApi).createNamespacedCustomObject(
-        'tekton.dev',
-        'v1beta1',
-        getNamespace(),
-        'taskruns',
-        generateTaskPayload('peribolos-run', context)
-      ),
+    createTaskRun('peribolos-run', context, [
       {
-        install: context.payload.installation.id,
-        method: 'schedulePushTask',
-      }
-    );
+        name: 'CHECK_RUN_ID',
+        value: checkResponse.data.id.toString(),
+      },
+    ]);
+  });
+
+  app.on('check_run.rerequested', async (context: any) => {
+    // In the future a check is needed if this is the peribolos-run check
+    const checkCommit = context.payload.check_run.head_sha;
+    const comRepo = await context.octokit.repos.get({
+      owner: context.payload.organization.login,
+      repo: '.github',
+    });
+    const defaultBranch = await context.octokit.repos.getBranch({
+      owner: context.payload.organization.login,
+      repo: '.github',
+      branch: comRepo.data.default_branch,
+    });
+    const headCommit = defaultBranch.data.commit.sha;
+
+    if (checkCommit !== headCommit) {
+      // When adding aditional information to the created check, update
+      // the body here too with the reason the check was skipped
+      context.octokit.checks.update({
+        owner: context.payload.organization.login,
+        repo: '.github',
+        check_run_id: context.payload.check_run.id,
+        status: 'completed',
+        conclusion: 'skipped',
+      });
+      return;
+    }
+
+    context.octokit.checks.update({
+      owner: context.payload.organization.login,
+      repo: '.github',
+      check_run_id: context.payload.check_run.id,
+      status: 'queued',
+    });
+
+    createTaskRun('peribolos-run', context, [
+      {
+        name: 'CHECK_RUN_ID',
+        value: context.payload.check_run.id.toString(),
+      },
+    ]);
   });
 
   app.on('installation.deleted', async (context: any) => {
