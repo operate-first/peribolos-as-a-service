@@ -1,3 +1,20 @@
+# [1.2.0](https://github.com/operate-first/peribolos-as-a-service/compare/v1.1.0...v1.2.0) (2022-07-07)
+
+
+### Bug Fixes
+
+* **tasks:** Reference the correct secret ([abb2957](https://github.com/operate-first/peribolos-as-a-service/commit/abb2957cd2b4104af54f923089b780eac20b523b))
+
+
+### Features
+
+* **controller:** Create GitHub check for taskRuns ([#146](https://github.com/operate-first/peribolos-as-a-service/issues/146)) ([24b25e9](https://github.com/operate-first/peribolos-as-a-service/commit/24b25e9305c24b0bf8e7df2bf6914a45de8a10c2))
+
+
+### Reverts
+
+* Reset dev overlay to base ([3b503ec](https://github.com/operate-first/peribolos-as-a-service/commit/3b503ec0f4e3023f25d02e3b8af558c41ed543fa))
+
 # [1.1.0](https://github.com/operate-first/peribolos-as-a-service/compare/v1.0.1...v1.1.0) (2022-06-30)
 
 
