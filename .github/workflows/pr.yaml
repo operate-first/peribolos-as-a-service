@@ -22,13 +22,3 @@ jobs:
 
       - name: Build
         uses: ./.github/actions/build-controller
-
-  build-peribolos:
-    name: Build peribolos
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Build
-        uses: ./.github/actions/build-peribolos

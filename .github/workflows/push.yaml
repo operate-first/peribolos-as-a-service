@@ -45,33 +45,3 @@ jobs:
           tag: ${{ github.sha }}
           expiration: +1 week
           token: ${{ secrets.QUAY_OAUTH_TOKEN }}
-
-  build-peribolos:
-    name: Build and Push Peribolos
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Build
-        uses: ./.github/actions/build-peribolos
-        with:
-          tags: ${{ github.sha }} latest
-
-      - name: Push To Quay
-        uses: redhat-actions/push-to-registry@v2
-        if: ${{ github.repository == 'operate-first/peribolos-as-a-service'}}
-        with:
-          image: peribolos
-          tags: ${{ github.sha }} latest
-          registry: quay.io/operate-first
-          username: ${{ secrets.QUAY_USERNAME }}
-          password: ${{ secrets.QUAY_PASSWORD }}
-
-      - name: Set expiration
-        uses: ./.github/actions/set-expiration
-        with:
-          repository: operate-first/peribolos
-          tag: ${{ github.sha }}
-          expiration: +1 week
-          token: ${{ secrets.QUAY_OAUTH_TOKEN }}
