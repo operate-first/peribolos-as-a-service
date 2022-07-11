@@ -12,6 +12,6 @@ patchesStrategicMerge:
   - route.yaml
 images:
   - name: quay.io/operate-first/peribolos-as-a-service
-    newTag: v1.2.0
+    newTag: v1.2.1
   - name: quay.io/operate-first/peribolos
-    newTag: v1.2.0
+    newTag: v1.2.1
