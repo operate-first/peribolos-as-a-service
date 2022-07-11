@@ -54,17 +54,22 @@ export default (
       .then(() => ({
         status: 'Succeeded',
       }))
-      .catch(() => ({
-        status: 'Failed',
-      }));
+      .catch((err) => {
+        app.log.error(err);
+        return {
+          status: 'Failed',
+        };
+      });
 
-    operationsTriggered
-      .labels({
-        ...labels,
-        ...response,
-        operation: 'k8s',
-      })
-      .inc();
+    response.then((r) =>
+      operationsTriggered
+        .labels({
+          ...labels,
+          ...r,
+          operation: 'k8s',
+        })
+        .inc()
+    );
   };
 
   const createTaskRun = (
