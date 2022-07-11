@@ -1,3 +1,11 @@
+## [1.2.1](https://github.com/operate-first/peribolos-as-a-service/compare/v1.2.0...v1.2.1) (2022-07-11)
+
+
+### Bug Fixes
+
+* **deps:** update all non-major dependencies ([#157](https://github.com/operate-first/peribolos-as-a-service/issues/157)) ([561f55c](https://github.com/operate-first/peribolos-as-a-service/commit/561f55c38a988ab8aa5c20ce412b2dc893a01207))
+* wrapOperationWithMetrics status label ([#168](https://github.com/operate-first/peribolos-as-a-service/issues/168)) ([6cae69e](https://github.com/operate-first/peribolos-as-a-service/commit/6cae69eead70eb6781e6de158ee10c981a3f55ff))
+
 # [1.2.0](https://github.com/operate-first/peribolos-as-a-service/compare/v1.1.0...v1.2.0) (2022-07-07)
 
 

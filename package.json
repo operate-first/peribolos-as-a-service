@@ -1,6 +1,6 @@
 {
   "name": "peribolos-as-a-service",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "private": true,
   "homepage": "https://github.com/operate-first/peribolos-as-a-service",
   "scripts": {
