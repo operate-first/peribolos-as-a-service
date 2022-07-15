@@ -1,0 +1,62 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: probot
+spec:
+  groups:
+    - name: controller
+      rules:
+        - alert: ProbotControllerDown
+          annotations:
+            description: "Controller {{ $labels.namespace }}/{{ $labels.pod }} is down."
+            summary: Controller is down
+          expr: 'up{pod=~".*-controller-.*"} < 1'
+          labels:
+            severity: critical
+        - alert: ProbotOperationFailed
+          annotations:
+            description: >-
+              Controller {{ $labels.namespace }}/{{ $labels.pod }} attempted {{
+              $labels.operation }}/{{ $labels.method }} operation on {{
+              $labels.install }} installation but failed.
+            summary: Controller failed to perform kubernetes operation.
+          expr: 'probot_operations_triggered{status="Failed"} > 0'
+          labels:
+            severity: warning
+        - alert: ProbotEventLoopLagging
+          annotations:
+            description: >-
+              Controller's time to schedule event processing has increased above
+              30ms, this may indicate a problem in controller runtime.
+            summary: Controller's event loop is lagging
+          expr: probot_nodejs_eventloop_lag_seconds > 0.03
+          for: 1m
+          labels:
+            severity: warning
+    - name: tekton
+      rules:
+        - alert: TaskRunFailed
+          annotations:
+            description: >-
+              TaskRun {{ $labels.label_tekton_dev_task_run }} ({{
+              $labels.namespace }}/{{ $labels.pod }}) has failed. Something
+              unexpected must have happened during task execution.
+            summary: Tekton task execution has failed.
+          expr: >-
+            kube_pod_status_phase{phase="Failed"} * on(pod) group_right
+            kube_pod_labels{label_tekton_dev_task=~".+"} > 0
+          labels:
+            severity: critical
+        - alert: TaskRunPending
+          annotations:
+            description: >-
+              TaskRun {{ $labels.label_tekton_dev_task_run }} ({{
+              $labels.namespace }}/{{ $labels.pod }}) takes too long to be
+              scheduled. Investigate for possible scheduling delays.
+            summary: TaskRun is in pending state for too long.
+          expr: >-
+            kube_pod_status_phase{phase="Pending"} * on(pod) group_right
+            kube_pod_labels{label_tekton_dev_task=~".+"} > 0
+          for: 2m
+          labels:
+            severity: warning
