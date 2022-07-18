@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
 - controller
 - tasks
+- monitoring
 commonLabels:
   app.kubernetes.io/name: peribolos-as-service
   app.kubernetes.io/managed-by: sig-services
