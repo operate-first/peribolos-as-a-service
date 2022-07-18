@@ -155,6 +155,11 @@ export default (
   });
 
   app.on('push', async (context: any) => {
+    // Check repository target
+    if (context.payload.repository.name !== '.github') {
+      app.log.debug('Not a ".github" repository event');
+      return;
+    }
     // Check if 'peribolos.yaml' was modified
     const modified = Boolean(
       context.payload.commits
@@ -173,6 +178,9 @@ export default (
       app.log.info('No changes in peribolos.yaml, skipping peribolos run');
       return;
     }
+    app.log.info(
+      "Changed 'peribolos.yaml' in '.github' repository, processing"
+    );
 
     // Update token in case it expired
     wrapOperationWithMetrics(updateTokenSecret(context), {
