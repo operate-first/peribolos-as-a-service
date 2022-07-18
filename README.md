@@ -37,7 +37,7 @@ We are neither the original creators or maintainers of the Peribolos code base. 
 
 ## How it works
 
-Simply install this application. It will ensure a `.github` special repository exists in your repository. In addition to that, Peribolos will create a pull request to this repository for you with all your github organization settings exported to `peribolos.yaml` manifest.
+Simply install this application. It will ensure a special `.github` repository exists in your organization. In addition to that, Peribolos will create a pull request to this repository for you with all your github organization settings exported to `peribolos.yaml` manifest.
 
 Later, on any change to this manifest pushed to the default branch, Peribolos will apply those changes to your organization.
 
