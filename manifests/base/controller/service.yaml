@@ -3,6 +3,8 @@ kind: Service
 apiVersion: v1
 metadata:
   name: controller
+  labels:
+    backstage.io/kubernetes-id: peribolos-as-a-service
 spec:
   ports:
   - name: webhook
