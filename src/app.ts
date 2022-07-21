@@ -10,6 +10,7 @@ import {
   updateTokenSecret,
   useApi,
 } from '@operate-first/probot-kubernetes';
+import { useAsyncCache } from './cache';
 
 export default (
   app: Probot,
@@ -49,30 +50,25 @@ export default (
   });
 
   // Simple callback wrapper - executes and async operation and based on the result it inc() operationsTriggered counted
-  const wrapOperationWithMetrics = (callback: Promise<any>, labels: any) => {
-    const response = callback
-      .then(() => ({
-        status: 'Succeeded',
-      }))
+  const wrapOperationWithMetrics = (callback: Promise<any>, labels: any) =>
+    callback
+      .then((value) => ['Succeeded', value] as const)
       .catch((err) => {
         app.log.error(err);
-        return {
-          status: 'Failed',
-        };
+        return ['Failed', undefined] as const;
+      })
+      .then(([status, value]) => {
+        operationsTriggered
+          .labels({
+            ...labels,
+            status,
+            operation: 'k8s',
+          })
+          .inc();
+        return value;
       });
 
-    response.then((r) =>
-      operationsTriggered
-        .labels({
-          ...labels,
-          ...r,
-          operation: 'k8s',
-        })
-        .inc()
-    );
-  };
-
-  const createTaskRun = (
+  const createTaskRun = async (
     name: string,
     context: any,
     extraParams: Array<Record<string, unknown>> = []
@@ -98,7 +94,7 @@ export default (
       },
     };
 
-    wrapOperationWithMetrics(
+    const taskrun = await wrapOperationWithMetrics(
       useApi(APIS.CustomObjectsApi).createNamespacedCustomObject(
         'tekton.dev',
         'v1beta1',
@@ -111,7 +107,21 @@ export default (
         method: name,
       }
     );
+
+    return taskrun;
   };
+
+  const getConsoleUrl = async () =>
+    useAsyncCache('consoleUrl', async () => {
+      const cm = await wrapOperationWithMetrics(
+        useApi(APIS.CoreV1Api).readNamespacedConfigMap(
+          'console-public',
+          'openshift-config-managed'
+        ),
+        { method: 'consoleUrl' }
+      );
+      return cm.body.data?.consoleURL;
+    });
 
   app.onAny((context: any) => {
     // On any event inc() the counter
@@ -145,13 +155,13 @@ export default (
     }
 
     // Create secret holding the access token
-    wrapOperationWithMetrics(createTokenSecret(context), {
+    await wrapOperationWithMetrics(createTokenSecret(context), {
       install: context.payload.installation.id,
       method: 'createSecret',
     });
 
     // Trigger dump-config taskrun
-    createTaskRun('peribolos-dump-config', context);
+    await createTaskRun('peribolos-dump-config', context);
   });
 
   app.on('push', async (context: any) => {
@@ -183,7 +193,7 @@ export default (
     );
 
     // Update token in case it expired
-    wrapOperationWithMetrics(updateTokenSecret(context), {
+    await wrapOperationWithMetrics(updateTokenSecret(context), {
       install: context.payload.installation.id,
       method: 'updateSecret',
     });
@@ -199,12 +209,23 @@ export default (
     });
 
     // Trigger taskrun to apply config changes to org
-    createTaskRun('peribolos-run', context, [
+    const task = await createTaskRun('peribolos-run', context, [
       {
         name: 'CHECK_RUN_ID',
         value: checkResponse.data.id.toString(),
       },
     ]);
+
+    const taskUrl = `${await getConsoleUrl()}/k8s/ns/${getNamespace()}/tekton.dev~v1beta1~TaskRun/${
+      task.body.metadata.name
+    }`;
+
+    context.octokit.checks.update({
+      owner: context.payload.organization.login,
+      repo: '.github',
+      check_run_id: checkResponse.data.id.toString(),
+      details_url: taskUrl,
+    });
   });
 
   app.on('check_run.rerequested', async (context: any) => {
@@ -222,7 +243,7 @@ export default (
     const headCommit = defaultBranch.data.commit.sha;
 
     if (checkCommit !== headCommit) {
-      // When adding aditional information to the created check, update
+      // When adding additional information to the created check, update
       // the body here too with the reason the check was skipped
       context.octokit.checks.update({
         owner: context.payload.organization.login,
@@ -241,7 +262,7 @@ export default (
       status: 'queued',
     });
 
-    createTaskRun('peribolos-run', context, [
+    await createTaskRun('peribolos-run', context, [
       {
         name: 'CHECK_RUN_ID',
         value: context.payload.check_run.id.toString(),
@@ -253,7 +274,7 @@ export default (
     numberOfUninstallTotal.labels({}).inc();
 
     // Delete secret containing the token
-    wrapOperationWithMetrics(deleteTokenSecret(context), {
+    await wrapOperationWithMetrics(deleteTokenSecret(context), {
       install: context.payload.installation.id,
       method: 'deleteSecret',
     });
