@@ -52,7 +52,7 @@ export default (
   // Simple callback wrapper - executes and async operation and based on the result it inc() operationsTriggered counted
   const wrapOperationWithMetrics = (callback: Promise<any>, labels: any) =>
     callback
-      .then((value) => ['Succeeded', value] as const)
+      .then((value) => [value ? 'Succeeded' : 'Skipped', value] as const)
       .catch((err) => {
         app.log.error(err);
         return ['Failed', undefined] as const;
@@ -128,7 +128,9 @@ export default (
     numberOfActionsTotal
       .labels({
         install: context.payload.installation.id,
-        action: context.payload.action,
+        action: context.payload.action
+          ? `${context.name}.${context.payload.action}`
+          : context.name,
       })
       .inc();
   });
