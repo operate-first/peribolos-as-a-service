@@ -257,6 +257,12 @@ export default (
       return;
     }
 
+    // Update token in case it expired
+    await wrapOperationWithMetrics(updateTokenSecret(context), {
+      install: context.payload.installation.id,
+      method: 'updateSecret',
+    });
+
     context.octokit.checks.update({
       owner: context.payload.organization.login,
       repo: '.github',
