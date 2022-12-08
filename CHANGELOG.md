@@ -1,3 +1,22 @@
+# [1.3.0](https://github.com/operate-first/peribolos-as-a-service/compare/v1.2.1...v1.3.0) (2022-12-08)
+
+
+### Bug Fixes
+
+* **deps:** pin dependency lru-cache to v7.13.1 ([#187](https://github.com/operate-first/peribolos-as-a-service/issues/187)) ([d0c1358](https://github.com/operate-first/peribolos-as-a-service/commit/d0c135822d9cf2f23ce113280cba676c7dc21168))
+* **deps:** update all non-major dependencies ([#195](https://github.com/operate-first/peribolos-as-a-service/issues/195)) ([5f0ca45](https://github.com/operate-first/peribolos-as-a-service/commit/5f0ca45bc3be405bfb8c8fd6a47868a74f4e6ee3))
+* Fix how metric labels are calculated ([3b51edc](https://github.com/operate-first/peribolos-as-a-service/commit/3b51edcd8fbccf89eff02ae3762e8504d7ac5b2b))
+* Limit push events to .github repo only ([#175](https://github.com/operate-first/peribolos-as-a-service/issues/175)) ([d9f1b5e](https://github.com/operate-first/peribolos-as-a-service/commit/d9f1b5e3e3605fea883857f76ce3a11a514c6d60))
+* Renew credentials on check retry ([#211](https://github.com/operate-first/peribolos-as-a-service/issues/211)) ([3c83e2b](https://github.com/operate-first/peribolos-as-a-service/commit/3c83e2b46be8900eda4fc6b21f9285d23ca8bbe2))
+* set --require-self to false on peribolos-run task ([#210](https://github.com/operate-first/peribolos-as-a-service/issues/210)) ([c19ed99](https://github.com/operate-first/peribolos-as-a-service/commit/c19ed99b9563fb3a1f392a69e42540c9cab25f02))
+
+
+### Features
+
+* Add basic prometheus alerts ([#177](https://github.com/operate-first/peribolos-as-a-service/issues/177)) ([80e1129](https://github.com/operate-first/peribolos-as-a-service/commit/80e11291c2e539db43a8afaf2125fe4fd566fb92))
+* Add OCP link to check ([#183](https://github.com/operate-first/peribolos-as-a-service/issues/183)) ([ba545cc](https://github.com/operate-first/peribolos-as-a-service/commit/ba545cc72769cf6e4742b3d2348497d086e02890))
+* Update tasks for peribolos upstream change ([#163](https://github.com/operate-first/peribolos-as-a-service/issues/163)) ([b443b7c](https://github.com/operate-first/peribolos-as-a-service/commit/b443b7c091bb8befde56f674891f7b3b31328f2d))
+
 ## [1.2.1](https://github.com/operate-first/peribolos-as-a-service/compare/v1.2.0...v1.2.1) (2022-07-11)
 
 
