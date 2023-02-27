@@ -14,7 +14,7 @@
   "dependencies": {
     "@operate-first/probot-kubernetes": "1.0.2",
     "@operate-first/probot-metrics": "1.0.0",
-    "lru-cache": "7.16.1",
+    "lru-cache": "7.17.0",
     "probot": "12.3.0"
   },
   "devDependencies": {
@@ -23,7 +23,7 @@
     "@semantic-release/git": "10.0.1",
     "@semantic-release/github": "8.0.7",
     "@types/jest": "29.4.0",
-    "@types/node": "18.14.0",
+    "@types/node": "18.14.1",
     "@typescript-eslint/eslint-plugin": "5.53.0",
     "@typescript-eslint/parser": "5.53.0",
     "eslint": "8.34.0",
