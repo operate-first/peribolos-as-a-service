@@ -7,7 +7,7 @@ const cache = new LRUCache({
 
 export const useAsyncCache = async (
   key: string,
-  callable: () => Promise<unknown>
+  callable: () => Promise<string>
 ) => {
   if (cache.has(key)) {
     return cache.get(key);

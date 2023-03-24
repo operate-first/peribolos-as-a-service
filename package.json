@@ -14,7 +14,7 @@
   "dependencies": {
     "@operate-first/probot-kubernetes": "1.0.2",
     "@operate-first/probot-metrics": "1.0.0",
-    "lru-cache": "7.18.3",
+    "lru-cache": "8.0.4",
     "probot": "12.3.0"
   },
   "devDependencies": {

@@ -120,7 +120,7 @@ export default (
         ),
         { method: 'consoleUrl' }
       );
-      return cm.body.data?.consoleURL;
+      return cm.body.data?.consoleURL as string;
     });
 
   app.onAny((context: any) => {
