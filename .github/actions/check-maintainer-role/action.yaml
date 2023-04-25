@@ -37,7 +37,7 @@ runs:
       run: exit 1
 
     - name: Close Issue
-      uses: peter-evans/close-issue@v2
+      uses: peter-evans/close-issue@v3
       if: ${{ !steps.access.outcome == 'failure' && steps.releaseLabel.outcome == 'success' }}
       with:
         issue-number: ${{ github.event.issue.number }}
