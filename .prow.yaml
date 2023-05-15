@@ -3,7 +3,7 @@ presubmits:
     decorate: true
     skip_report: false
     always_run: true
-    context: pre-commit
+    context: op1st/prow/pre-commit
     spec:
       containers:
         - image: quay.io/operate-first/opf-toolbox:v0.5.0
