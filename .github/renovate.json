@@ -7,7 +7,7 @@
         "group:semantic-releaseMonorepo"
     ],
     "npm": {
-        "stabilityDays": 3
+        "stabilityDays": 1
     },
     "packageRules": [
         {
