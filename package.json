@@ -15,7 +15,7 @@
     "@operate-first/probot-kubernetes": "1.0.3",
     "@operate-first/probot-metrics": "1.0.0",
     "lru-cache": "8.0.5",
-    "probot": "12.3.0"
+    "probot": "13.0.1"
   },
   "devDependencies": {
     "@semantic-release/changelog": "6.0.3",
